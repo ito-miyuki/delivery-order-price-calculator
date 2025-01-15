@@ -5,8 +5,34 @@ function Form() {
     const [cartValue, setCartValue] = useState<number | undefined>(); // what could be the init value?
     const [latitude, setLatitude] = useState<number | undefined>(); // text or number
     const [longitude, setLongitude] = useState<number | undefined>(); // text or number
-    const [location, setLocation] = useState<number>(); //// what could be the init value?
     
+    const handleGetLocation = (e: React.MouseEvent) => {
+        e.preventDefault(); // to prevent from page reload
+        
+        // check if the browser support Geolocation API
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    setLatitude(position.coords.latitude);
+                    setLongitude(position.coords.longitude);
+                },
+                (error) => {
+                    console.log('Error fetcing location: ', error);
+                }
+            )
+        }
+        else {
+            console.error('Geolocation is not supported by this browser.');
+        }
+    };
+
+    /*
+    getCurrentPosition() はコールバック関数を引数として渡す。
+    ひとつは成功した時に何をしたいかの関数
+    もうひとつは失敗した時に何をしたいかを明示する関数
+    みっつめはオプショナル。位置情報取得時の設定を指定するオプションオブジェクト
+    */
+
     return (
         <div className="form-container">
             <form id="form">
@@ -59,8 +85,7 @@ function Form() {
                         value={longitude}
                     />
                 </div>
-                <button id="getLocation" onClick={}>Get location</button>
-                <p id="locationOutput">Location will be display here</p>
+                <button id="getLocation" onClick={handleGetLocation}>Get location</button>
 
                 <button type="submit">Calculate delivery price</button>
             </form>
