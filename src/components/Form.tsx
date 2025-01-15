@@ -1,10 +1,26 @@
-import { useState } from "react";
+import React from "react";
 
-function Form() {
-    const [venue, setVenue] = useState<string | undefined>('');
-    const [cartValue, setCartValue] = useState<number | undefined>(); // what could be the init value?
-    const [latitude, setLatitude] = useState<number | undefined>(); // text or number
-    const [longitude, setLongitude] = useState<number | undefined>(); // text or number
+type FormProps = {
+    venue: string | undefined;
+    setVenue: React.Dispatch<React.SetStateAction<string | undefined>>;
+    cartValue: number | undefined;
+    setCartValue: React.Dispatch<React.SetStateAction<number | undefined>>;
+    latitude: number | undefined;
+    setLatitude: React.Dispatch<React.SetStateAction<number | undefined>>;
+    longitude: number | undefined;
+    setLongitude: React.Dispatch<React.SetStateAction<number | undefined>>;
+}
+
+function Form({
+        venue,
+        setVenue,
+        cartValue,
+        setCartValue,
+        latitude,
+        setLatitude,
+        longitude,
+        setLongitude,
+    }: FormProps){
     
     const handleGetLocation = (e: React.MouseEvent) => {
         e.preventDefault(); // to prevent from page reload
