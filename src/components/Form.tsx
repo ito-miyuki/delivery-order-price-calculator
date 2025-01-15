@@ -1,4 +1,5 @@
 import React from "react";
+import calculateFee from "../utils/calculateFee";
 
 type FormProps = {
     venue: string | undefined;
@@ -49,6 +50,15 @@ function Form({
     みっつめはオプショナル。位置情報取得時の設定を指定するオプションオブジェクト
     */
 
+    const handleSubmit = (e: React.MouseEvent) => { // mouse event???
+        e.preventDefault(); // to prevent from page reload
+        // fetchVenue() // make function to fetch venue data
+        calculateFee();
+        console.log('Hello? I am at handleSubmit()');
+
+        return;
+    }
+
     return (
         <div className="form-container">
             <form id="form">
@@ -84,8 +94,8 @@ function Form({
                         id="userLatitude"
                         name="userLatitude"
                         placeholder="0.0"
-                        min="0.1"
-                        step="0.1"
+                        // min="0.1" // think about better min and step
+                        // step="0.1"
                         value={latitude}
                     />
                 </div>
@@ -96,14 +106,14 @@ function Form({
                         id="userLongitude"
                         name="userLongitude"
                         placeholder="0.0"
-                        min="0.1"
-                        step="0.1"
+                        // min="0.1" // think about better min and step
+                        // step="0.1"
                         value={longitude}
                     />
                 </div>
                 <button id="getLocation" onClick={handleGetLocation}>Get location</button>
 
-                <button type="submit">Calculate delivery price</button>
+                <button type="submit" onClick={handleSubmit}>Calculate delivery price</button>
             </form>
         </div>
     )
