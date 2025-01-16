@@ -1,5 +1,6 @@
 import React from "react";
 import calculateFee from "../utils/calculateFee";
+import fetchVenue from "../utils/fetchVenue";
 
 type FormProps = {
     venue: string | undefined;
@@ -50,18 +51,24 @@ function Form({
     みっつめはオプショナル。位置情報取得時の設定を指定するオプションオブジェクト
     */
 
-    const handleSubmit = (e: React.MouseEvent) => { // mouse event???
+    const handleSubmit = async (e: React.FormEvent) => { 
         e.preventDefault(); // to prevent from page reload
-        // fetchVenue() // make function to fetch venue data
-        calculateFee();
+        const venueData = await fetchVenue(venue);
+
+        if (venueData === null) {
+            console.error("Venue data is null. Cannot calculate delivery fee.");
+            return; // 必要に応じて早期リターン
+        }
+        
+        const deliveryFee = calculateFee(cartValue, latitude, longitude, venueData.latitude, venueData.longitude);
         console.log('Hello? I am at handleSubmit()');
 
-        return;
+        return deliveryFee;
     }
 
     return (
         <div className="form-container">
-            <form id="form">
+            <form id="form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="venueSlug" data-testid="venueSlug">Venue Slug</label>
                     <input
@@ -97,6 +104,7 @@ function Form({
                         // min="0.1" // think about better min and step
                         // step="0.1"
                         value={latitude}
+                        onChange={(e) => setLatitude(parseFloat(e.target.value))}
                     />
                 </div>
                 <div className="form-group">
@@ -109,11 +117,12 @@ function Form({
                         // min="0.1" // think about better min and step
                         // step="0.1"
                         value={longitude}
+                        onChange={(e) => setLongitude(parseFloat(e.target.value))}
                     />
                 </div>
                 <button id="getLocation" onClick={handleGetLocation}>Get location</button>
 
-                <button type="submit" onClick={handleSubmit}>Calculate delivery price</button>
+                <button type="submit">Calculate delivery price</button>
             </form>
         </div>
     )

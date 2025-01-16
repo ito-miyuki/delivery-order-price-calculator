@@ -6,9 +6,15 @@ import { useState } from 'react';
 function App() {
 
   const [venue, setVenue] = useState<string | undefined>('');
-  const [cartValue, setCartValue] = useState<number | undefined>(); // what could be the init value?
-  const [latitude, setLatitude] = useState<number | undefined>(); // text or number
-  const [longitude, setLongitude] = useState<number | undefined>(); // text or number
+  const [cartValue, setCartValue] = useState<number | undefined>(0); // what could be the init value?
+  const [latitude, setLatitude] = useState<number | undefined>(0); // text or number
+  const [longitude, setLongitude] = useState<number | undefined>(0); // text or number
+
+  // for DeliveryPrice
+  // const [deliveryFee, setDeliveryFee] = useState<number | undefined>(0);
+  // const [deliveryDis, setDeliveryDis] = useState<number | undefined>(0);
+  // const [surcharge, setSurcharge] = useState<number | undefined>(0);
+  // const [total, setTotal] = useState<number | undefined>(0);
   
   return (
       <>

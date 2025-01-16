@@ -1,4 +1,4 @@
-type FormProps = {
+type DeliveryPrice = {
     venue: string | undefined;
     setVenue: React.Dispatch<React.SetStateAction<string | undefined>>;
     cartValue: number | undefined;
@@ -18,7 +18,6 @@ function DeliveryPrice({
 
     const totalPrice = cartValue;
 
-    
  return (
     <>
     <p>Price Breakdown</p>
