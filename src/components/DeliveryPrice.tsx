@@ -1,33 +1,28 @@
-type DeliveryPrice = {
-    venue: string | undefined;
-    setVenue: React.Dispatch<React.SetStateAction<string | undefined>>;
-    cartValue: number | undefined;
-    setCartValue: React.Dispatch<React.SetStateAction<number | undefined>>;
-    latitude: number | undefined;
-    setLatitude: React.Dispatch<React.SetStateAction<number | undefined>>;
-    longitude: number | undefined;
-    setLongitude: React.Dispatch<React.SetStateAction<number | undefined>>;
-}
+type DeliveryPriceProps = {
+    cartValue: number | null;
+    deliveryFee: number;
+    deliveryDis: number;
+    surcharge: number;
+    total: number;
+};
 
 function DeliveryPrice({
     cartValue,
-    latitude,
-    longitude,
-    venueLatitude,
-    venueLongitude,}: DeliveryPriceProps) {
-
-    const totalPrice = cartValue;
-
- return (
-    <>
-    <p>Price Breakdown</p>
-    <p>Cart Value: {cartValue}€</p>
-    <p>Delivery fee: </p>
-    <p>Delivery distance: </p>
-    <p>Small order surcharge: </p>
-    <p>Total price: {totalPrice}€</p>
-    </>
- )   
+    deliveryFee,
+    deliveryDis,
+    surcharge,
+    total,
+}: DeliveryPriceProps) {
+    return (
+        <div>
+            <h2>Price Breakdown</h2>
+            <p>Cart Value: {cartValue ?? 0}€</p>
+            <p>Delivery Fee: {deliveryFee}€</p>
+            <p>Delivery Distance: {deliveryDis} km</p>
+            <p>Small Order Surcharge: {surcharge}€</p>
+            <p>Total Price: {total}€</p>
+        </div>
+    );
 }
 
 export default DeliveryPrice;
