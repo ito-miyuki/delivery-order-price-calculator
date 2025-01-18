@@ -1,0 +1,91 @@
+.form-container {
+    background-color: white;
+    border: solid;
+    border-color: rgba(0,157,224);
+    border-width: medium;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    height: auto;
+    width: auto;
+    max-width: 600px;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 16px;
+}
+
+input {
+    padding: 1.5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.delivery-price {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    border: 1px solid;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+}
+
+.submit-button {
+    background-color: rgba(0,157,224);
+    border: 1px solid;
+    border-color: rgba(0,157,224);
+    border-radius: 8px;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.location-button {
+    background-color: rgba(85,85,85);
+    padding: 5px 10px;
+}
+
+
+.submit-button:hover {
+    background-color: rgba(0,157,224,0.8);
+    transform: scale(1.05);
+}
+
+.location-button:hover {
+    background-color: rgba(85,85,85,0.8);
+    transform: scale(1.05);
+}
+
+
+@media only screen and (max-width: 768px) {
+
+    .form{
+        padding: 20px;
+        gap: 16px;
+    }
+    
+    input {
+        padding: 1.5px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    
+    .delivery-price {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+    }
+}

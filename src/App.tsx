@@ -32,25 +32,28 @@ function App() {
             <header>
                 <h1>Delivery Order Price Calculator</h1>
             </header>
-            <Form
-                venue={venue}
-                setVenue={setVenue}
-                cartValue={cartValue}
-                setCartValue={setCartValue}
-                latitude={latitude}
-                setLatitude={setLatitude}
-                longitude={longitude}
-                setLongitude={setLongitude}
-                // setOrderMinimum={setOrderMinimum}
-                updateFeesState={updateFeesState}
-            />
-            <DeliveryPrice
-                cartValue={cartValue}
-                deliveryFee={deliveryFee}
-                deliveryDis={deliveryDis}
-                surcharge={surcharge}
-                total={total}
-            />
+            <div className='wrapper'>
+                <Form
+                    venue={venue}
+                    setVenue={setVenue}
+                    cartValue={cartValue}
+                    setCartValue={setCartValue}
+                    latitude={latitude}
+                    setLatitude={setLatitude}
+                    longitude={longitude}
+                    setLongitude={setLongitude}
+                    // setOrderMinimum={setOrderMinimum}
+                    updateFeesState={updateFeesState}
+                    total={total}
+                />
+                <DeliveryPrice
+                    cartValue={cartValue}
+                    deliveryFee={deliveryFee}
+                    deliveryDis={deliveryDis}
+                    surcharge={surcharge}
+                    total={total}
+                />
+            </div>
         </div>
     );
 }

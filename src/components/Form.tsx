@@ -2,6 +2,7 @@ import React from "react";
 import calculateFee from "../utils/calculateFee";
 import fetchVenue from "../utils/fetchVenue";
 import { FeeCalculationResult } from "../utils/calculateFee";
+import "./Form.css"
 
 type FormProps = {
     venue: string | undefined;
@@ -14,6 +15,7 @@ type FormProps = {
     setLongitude: React.Dispatch<React.SetStateAction<number | null>>;
     // setOrderMinimum: React.Dispatch<React.SetStateAction<number>>;
     updateFeesState: (result: FeeCalculationResult) => void;
+    total: number | null
 };
 
 function Form({
@@ -27,6 +29,7 @@ function Form({
     setLongitude,
     // setOrderMinimum,
     updateFeesState,
+    total
 }: FormProps) {
     
     const handleGetLocation = (e: React.MouseEvent) => {
@@ -80,44 +83,50 @@ function Form({
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label>Venue Slug:</label>
-                <input
-                    type="text"
-                    value={venue}
-                    onChange={(e) => setVenue(e.target.value)}
-                />
-            </div>
-            <div>
-                <label>Cart Value:</label>
-                <input
-                    type="number"
-                    value={cartValue || ""}
-                    onChange={(e) => setCartValue(Number(e.target.value))}
-                />
-            </div>
-            <div>
-                <label>Latitude:</label>
-                <input
-                    type="number"
-                    value={latitude || ""}
-                    onChange={(e) => setLatitude(Number(e.target.value))}
-                />
-            </div>
-            <div>
-                <label>Longitude:</label>
-                <input
-                    type="number"
-                    value={longitude || ""}
-                    onChange={(e) => setLongitude(Number(e.target.value))}
-                />
-            </div>
-            <button type="button" onClick={handleGetLocation}>
-                Get Location
-            </button>
-            <button type="submit">Calculate Delivery Price</button>
-        </form>
+        <div className="form-container">
+            <form className="form" onSubmit={handleSubmit}>
+                <div>
+                    <label>Venue Slug:</label>
+                    <input
+                        type="text"
+                        value={venue}
+                        onChange={(e) => setVenue(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label>Cart Value:</label>
+                    <input
+                        type="number"
+                        value={cartValue || ""}
+                        onChange={(e) => setCartValue(Number(e.target.value))}
+                    />
+                </div>
+                <div>
+                    <label>Latitude:</label>
+                    <input
+                        type="number"
+                        value={latitude || ""}
+                        onChange={(e) => setLatitude(Number(e.target.value))}
+                    />
+                </div>
+                <div>
+                    <label>Longitude:</label>
+                    <input
+                        type="number"
+                        value={longitude || ""}
+                        onChange={(e) => setLongitude(Number(e.target.value))}
+                    />
+                </div>
+                <button className="location-button" type="button" onClick={handleGetLocation}>
+                    Get Location
+                </button>
+                <button className="submit-button"type="submit">Calculate Delivery Price</button>
+                <div className="delivery-price">
+                    <span>Total price:</span>
+                    <span className="price">{total}€</span>
+                </div>
+            </form>
+        </div>
     );
 }
 

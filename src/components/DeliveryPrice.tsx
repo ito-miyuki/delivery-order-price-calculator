@@ -1,3 +1,5 @@
+import "./DeliveryPrice.css"
+
 type DeliveryPriceProps = {
     cartValue: number | null;
     deliveryFee: number;
@@ -14,7 +16,7 @@ function DeliveryPrice({
     total,
 }: DeliveryPriceProps) {
     return (
-        <div>
+        <div className="delivery-price-container">
             <h2>Price Breakdown</h2>
             <p>Cart Value: {cartValue ?? 0}€</p>
             <p>Delivery Fee: {deliveryFee}€</p>

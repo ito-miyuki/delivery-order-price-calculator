@@ -1,0 +1,13 @@
+.delivery-price-container {
+    margin: 20px auto;
+}
+
+h2 {
+    color: #009de0;;
+}
+
+.delivery-price-container p {
+    margin: 4px 0;
+    font-size: 16px;
+    color: #555;
+}
