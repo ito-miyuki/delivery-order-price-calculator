@@ -1,7 +1,18 @@
+import calculateDistance from "./calculateDistance";
+import calculateDeliveryFee from "./calculateDeliveryFee";
+
 export type FeeCalculationResult = {
     smallOrderFee: number;
     deliveryFee: number;
+    deliveryDis: number;
     totalPrice: number;
+};
+
+export type DistanceRange = {
+    min: number; // 距離範囲の下限 (メートル)
+    max: number; // 距離範囲の上限 (メートル)
+    a: number;   // 固定料金
+    b: number;   // 距離ベースの追加料金係数
 };
 
 const calculateFee = (
@@ -10,56 +21,63 @@ const calculateFee = (
     userLongitude: number | null,
     venueLatitude: number | null,
     venueLongitude: number | null,
-    orderMinimum: number | null
+    orderMinimum: number | null,
+    basePrice: number | null,
+    distanceRanges: DistanceRange[]
 ): FeeCalculationResult => {
-    if (!cartValue || !userLatitude || !userLongitude || !venueLatitude || !venueLongitude || !orderMinimum) {
+
+    // for testing, delete those
+    // console.log("check values");
+    // console.log(`${cartValue}`);
+    // console.log(`${userLatitude}`);
+    // console.log(`${userLongitude}`);
+    // console.log(`${venueLatitude}`);
+    // console.log(`${venueLongitude}`);
+    // console.log(`${orderMinimum}`);
+    // console.log(`${basePrice}`);
+
+    if (
+        !cartValue ||
+        !userLatitude ||
+        !userLongitude ||
+        !venueLatitude ||
+        !venueLongitude ||
+        !orderMinimum ||
+        !basePrice ||
+        !distanceRanges ||
+        distanceRanges.length === 0 // do we need it?
+    ) {
         console.error("Invalid input for delivery fee calculation.");
         return {
             smallOrderFee: 0,
             deliveryFee: 0,
+            deliveryDis: 0,
             totalPrice: 0,
         };
     }
 
     const smallOrderFee = cartValue < orderMinimum ? orderMinimum - cartValue : 0;
-    const deliveryFee = 5; // 仮の配送料
+    const deliveryDis = calculateDistance(venueLatitude, venueLongitude, userLatitude, userLongitude);
+            
+    const deliveryFee = calculateDeliveryFee(deliveryDis * 1000, basePrice, distanceRanges);
+    if (deliveryFee === null) {
+        console.error("Delivery is not available for this distance.");
+        return {
+            smallOrderFee,
+            deliveryFee: 0,
+            deliveryDis,
+            totalPrice: 0,
+        };
+    }
+
     const totalPrice = cartValue + smallOrderFee + deliveryFee;
 
-    console.log(`smallOrderFee is ${smallOrderFee}`);
     return {
         smallOrderFee,
         deliveryFee,
+        deliveryDis,
         totalPrice,
     };
 };
-
-
-// const calculateFee = (
-//     cartValue: number | null,
-//     userLatitude: number | null ,
-//     userLongitude: number | null,
-//     venueLatitude: number | null,
-//     venueLongitude: number | null,
-//     orderMinimum: number | null): number => {
-//     // logic here
-//     if (!cartValue || !userLatitude || !userLongitude || !venueLatitude || !venueLongitude || !orderMinimum) {
-//         console.error('Invalid input for delivery fee calculation.');
-//         return 0;
-//     }
-//     const smallOrderFee = cartValue < orderMinimum ? orderMinimum - cartValue : 0;
-
-//     const deliveryFee = 0;
-    
-//     // for testing
-//     console.log(`cart value is ${cartValue}`);
-//     console.log(`user latitude is ${userLatitude}`);
-//     console.log(`use longitude is ${userLongitude}`);
-//     console.log(`venue latitude is ${venueLatitude}`);
-//     console.log(`venue longitude is ${venueLongitude}`);
-//     console.log(`order Minimum is ${orderMinimum}`);
-//     console.log(`deliveryFee is ${deliveryFee}`);
-
-//     return deliveryFee + smallOrderFee;
-// }
 
 export default calculateFee;
