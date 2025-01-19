@@ -1,5 +1,42 @@
-import calculateDistance from "./calculateDistance";
-import calculateDeliveryFee from "./calculateDeliveryFee";
+const calculateDistance = (
+    venueLatitude: number,
+    venueLongitude: number,
+    userLatitude: number,
+    userLongitude: number
+): number => {
+    const toRadians = (deg: number) => (deg * Math.PI) / 180; // 度をラジアンに変換
+
+    const R = 6371; // 地球の半径 (km)
+    const dLat = toRadians(userLatitude - venueLatitude);
+    const dLon = toRadians(userLongitude - venueLongitude);
+
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRadians(venueLatitude)) *
+        Math.cos(toRadians(userLatitude)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return Math.round(R * c); // 距離 (km)
+};
+
+const calculateDeliveryFee = (
+    distance: number,
+    basePrice: number,
+    distanceRanges: DistanceRange[]
+): number | null => {
+    // 距離範囲に基づく料金計算
+    for (const range of distanceRanges) {
+        if (distance >= range.min && (range.max === 0 || distance < range.max)) {
+            const variableFee = Math.round(range.b * (distance / 10)); // 距離ベース料金
+            return basePrice + range.a + variableFee;
+        }
+    }
+    // 配送不可の場合
+    return null;
+};
+
 
 export type FeeCalculationResult = {
     smallOrderFee: number;
@@ -15,16 +52,25 @@ export type DistanceRange = {
     b: number;   // 距離ベースの追加料金係数
 };
 
-const calculateFee = (
-    cartValue: number | null,
-    userLatitude: number | null,
-    userLongitude: number | null,
-    venueLatitude: number | null,
-    venueLongitude: number | null,
-    orderMinimum: number | null,
-    basePrice: number | null,
-    distanceRanges: DistanceRange[]
-): FeeCalculationResult => {
+const calculateFee = ({
+      cartValue,
+      userLatitude,
+      userLongitude,
+      venueLatitude,
+      venueLongitude,
+      orderMinimum,
+      basePrice,
+      distanceRanges
+    }: {
+      cartValue: number | null,
+      userLatitude: number | null,
+      userLongitude: number | null,
+      venueLatitude: number | null,
+      venueLongitude: number | null,
+      orderMinimum: number | null,
+      basePrice: number | null,
+      distanceRanges: DistanceRange[]
+}): FeeCalculationResult => {
 
     // for testing, delete those
     // console.log("check values");

@@ -69,16 +69,16 @@ function Form({
         // setOrderMinimum(venueData.orderMinimum); // 最小注文額を App に設定
 
         // 計算結果を取得
-        const result = calculateFee(
-            cartValue,
-            latitude,
-            longitude,
-            venueData.latitude,
-            venueData.longitude,
-            venueData.orderMinimum,
-            venueData.basePrice,
-            venueData.distanceRanges
-        );
+        const result = calculateFee({
+            cartValue: cartValue,
+            userLatitude: latitude,
+            userLongitude: longitude,
+            venueLatitude: venueData.latitude,
+            venueLongitude: venueData.longitude,
+            orderMinimum: venueData.orderMinimum,
+            basePrice: venueData.basePrice,
+            distanceRanges: venueData.distanceRanges
+        });
 
         // 計算結果を App に渡す
         updateFeesState(result);
@@ -93,6 +93,8 @@ function Form({
                         type="text"
                         value={venue}
                         onChange={(e) => setVenue(e.target.value)}
+                        data-test-id="venueSlug" 
+                        data-raw-value={venue}
                     />
                 </div>
                 <div className="form-group">
@@ -101,6 +103,8 @@ function Form({
                         type="number"
                         value={cartValue || ""}
                         onChange={(e) => setCartValue(Number(e.target.value))}
+                        data-test-id="cartValue"
+                        data-raw-value={cartValue}
                     />
                 </div>
                 <div className="form-group">
@@ -109,6 +113,8 @@ function Form({
                         type="number"
                         value={latitude || ""}
                         onChange={(e) => setLatitude(Number(e.target.value))}
+                        data-test-id="latitude"
+                        data-raw-value={latitude}
                     />
                 </div>
                 <div className="form-group">
@@ -117,16 +123,14 @@ function Form({
                         type="number"
                         value={longitude || ""}
                         onChange={(e) => setLongitude(Number(e.target.value))}
+                        data-test-id="longitude"
+                        data-raw-value={longitude}
                     />
                 </div>
                 <button className="location-button" type="button" onClick={handleGetLocation}>
                     Get Location
                 </button>
                 <button className="submit-button"type="submit">Calculate Delivery Price</button>
-                {/* <div className="delivery-price">
-                    <span>Total price:</span>
-                    <span className="price">{total}€</span>
-                </div> */}
             </form>
         </div>
     );
