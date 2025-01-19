@@ -104,7 +104,7 @@ function Form({
                         value={cartValue || ""}
                         onChange={(e) => setCartValue(Number(e.target.value))}
                         data-test-id="cartValue"
-                        data-raw-value={cartValue}
+                        data-raw-value={cartValue ? cartValue* 100 : 0}
                     />
                 </div>
                 <div className="form-group">

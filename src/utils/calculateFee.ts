@@ -18,8 +18,9 @@ const calculateDistance = (
         Math.sin(dLon / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return Math.round(R * c); // 距離 (km)
+    return Math.round(R * c * 1000); // 距離 (km)
 };
+
 
 const calculateDeliveryFee = (
     distance: number,
@@ -36,7 +37,6 @@ const calculateDeliveryFee = (
     // 配送不可の場合
     return null;
 };
-
 
 export type FeeCalculationResult = {
     smallOrderFee: number;
@@ -102,10 +102,10 @@ const calculateFee = ({
         };
     }
 
-    const smallOrderFee = cartValue < orderMinimum ? orderMinimum - cartValue : 0;
+    const smallOrderFee = (cartValue * 100) < orderMinimum ? orderMinimum - (cartValue * 100) : 0;
     const deliveryDis = calculateDistance(venueLatitude, venueLongitude, userLatitude, userLongitude);
             
-    const deliveryFee = calculateDeliveryFee(deliveryDis * 1000, basePrice, distanceRanges);
+    const deliveryFee = calculateDeliveryFee(deliveryDis, basePrice, distanceRanges);
     if (deliveryFee === null) {
         console.error("Delivery is not available for this distance.");
         return {
@@ -116,7 +116,7 @@ const calculateFee = ({
         };
     }
 
-    const totalPrice = cartValue + smallOrderFee + deliveryFee;
+    const totalPrice = (cartValue * 100) + smallOrderFee + deliveryFee;
 
     return {
         smallOrderFee,
