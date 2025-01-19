@@ -25,11 +25,11 @@ function App() {
     };
 
     return (
-        <div>
+        <div className='container'>
             <header>
                 <h1>Delivery Order Price Calculator</h1>
             </header>
-            <div className='wrapper'>
+            <div className='app-container'>
                 <Form
                     venue={venue}
                     setVenue={setVenue}

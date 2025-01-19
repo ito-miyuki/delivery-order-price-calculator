@@ -1,13 +1,57 @@
 .delivery-price-container {
     margin: 20px auto;
-}
-
-h2 {
-    color: #009de0;;
-}
-
-.delivery-price-container p {
-    margin: 4px 0;
-    font-size: 16px;
+    border: solid;
+    border-color: rgba(0,157,224);
+    background-color: white;
+    border-width: medium;
+    border-radius: 8px;
+    padding: 10px;
     color: #555;
+}
+
+.total-value {
+    display: flex;
+    justify-content: space-between;
+    font-size: 22px;
+    color: black;
+}
+
+.breakdown-value {
+    display: flex;
+    justify-content: space-between;
+}
+.breakdown-value .topic {
+    margin: auto 10px;
+}
+
+.breakdown-value .value {
+    margin: auto 10px;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid #ccc; /* 灰色の線 */
+    margin: 10px 0;
+}
+
+.delivery-price-container .total-price {
+    color: black;
+    font-size: 24px;
+}
+
+.breakdown {
+    margin: 4px 0;
+    font-size: 18px;
+    margin: 5px 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    .breakdown-value .topic,
+    .breakdown-value .value {
+        margin: auto 5px; /* スペースを少なめに */
+    }
+
+    .divider {
+        margin: 8px 0; /* 狭い画面では余白を調整 */
+    }
 }

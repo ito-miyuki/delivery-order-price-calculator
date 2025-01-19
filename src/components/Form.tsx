@@ -29,7 +29,7 @@ function Form({
     setLongitude,
     // setOrderMinimum,
     updateFeesState,
-    total
+    // total
 }: FormProps) {
     
     const handleGetLocation = (e: React.MouseEvent) => {
@@ -87,32 +87,32 @@ function Form({
     return (
         <div className="form-container">
             <form className="form" onSubmit={handleSubmit}>
-                <div>
-                    <label>Venue Slug:</label>
+                <div className="form-group">
+                    <label>Venue Slug</label>
                     <input
                         type="text"
                         value={venue}
                         onChange={(e) => setVenue(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label>Cart Value:</label>
+                <div className="form-group">
+                    <label>Cart Value</label>
                     <input
                         type="number"
                         value={cartValue || ""}
                         onChange={(e) => setCartValue(Number(e.target.value))}
                     />
                 </div>
-                <div>
-                    <label>Latitude:</label>
+                <div className="form-group">
+                    <label>Latitude</label>
                     <input
                         type="number"
                         value={latitude || ""}
                         onChange={(e) => setLatitude(Number(e.target.value))}
                     />
                 </div>
-                <div>
-                    <label>Longitude:</label>
+                <div className="form-group">
+                    <label>Longitude</label>
                     <input
                         type="number"
                         value={longitude || ""}
@@ -123,10 +123,10 @@ function Form({
                     Get Location
                 </button>
                 <button className="submit-button"type="submit">Calculate Delivery Price</button>
-                <div className="delivery-price">
+                {/* <div className="delivery-price">
                     <span>Total price:</span>
                     <span className="price">{total}€</span>
-                </div>
+                </div> */}
             </form>
         </div>
     );

@@ -1,9 +1,5 @@
 .form-container {
     background-color: white;
-    border: solid;
-    border-color: rgba(0,157,224);
-    border-width: medium;
-    border-radius: 8px;
     display: flex;
     justify-content: center;
     height: auto;
@@ -14,9 +10,23 @@
 .form{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
     padding: 20px;
     gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+label {
+    flex: 1;
+    text-align: left;
+    font-size: 16px;
+    color: #333;
 }
 
 input {
@@ -25,12 +35,6 @@ input {
     border: 1px solid #ccc;
     margin-left: 5px;
     margin-right: 5px;
-}
-
-.delivery-price {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
 }
 
 button {

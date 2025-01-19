@@ -17,12 +17,23 @@ function DeliveryPrice({
 }: DeliveryPriceProps) {
     return (
         <div className="delivery-price-container">
-            <h2>Price Breakdown</h2>
-            <p>Cart Value: {cartValue ?? 0}€</p>
-            <p>Delivery Fee: {deliveryFee}€</p>
-            <p>Delivery Distance: {deliveryDis} km</p>
-            <p>Small Order Surcharge: {surcharge}€</p>
-            <p>Total Price: {total}€</p>
+            <div className="total-value">
+                <span className="topic">Total Price</span><span className="value">{total}€</span>
+            </div>
+            <hr className="divider" />
+            <p className="breakdown">Price Breakdown</p>
+            <div className="breakdown-value">
+                <span className="topic">Cart Value</span><span className="value">{cartValue ?? 0}€</span>
+            </div>
+            <div className="breakdown-value">
+                <span className="topic">Delivery Fee</span><span className="value">{deliveryFee}€</span>
+            </div>
+            <div className="breakdown-value">
+                <span className="topic">Delivery Distance</span><span className="value">{deliveryDis}€</span>
+            </div>
+            <div className="breakdown-value">
+                <span className="topic">Small Order Surcharge</span><span className="value">{surcharge}€</span>
+            </div>
         </div>
     );
 }

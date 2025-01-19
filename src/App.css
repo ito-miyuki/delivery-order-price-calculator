@@ -6,31 +6,28 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* height: 100vh; */
 }
+
+/* .container {
+  text-align: center;
+}  */
 
 h1 {
   color: #009de0;
   margin: 20px;
+  text-align: center;
 }
 
-.wrapper {
+.app-container {
   display: flex;
+  flex-direction: row;;
   justify-content: space-between;
+  gap: 20px;
   width: 100%;
 }
 
-/* @keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
-
 @media only screen and (max-width: 768px) {
-  .wrapper {
+  .app-container {
     flex-direction: column;
   }
 }
