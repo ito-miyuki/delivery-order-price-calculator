@@ -5,8 +5,8 @@ import { useState } from 'react';
 import type { FeeCalculationResult } from './utils/calculateFee';
 
 function App() {
-    const [venue, setVenue] = useState<string | undefined>('');
-    const [cartValue, setCartValue] = useState<number | null>(0);
+    const [venueSlug, setVenueSlug] = useState<string | undefined>('');
+    const [cartValue, setCartValue] = useState<number | null>(null);
     const [latitude, setLatitude] = useState<number | null>(null);
     const [longitude, setLongitude] = useState<number | null>(null);
 
@@ -31,8 +31,8 @@ function App() {
             </header>
             <div className='app-container'>
                 <Form
-                    venue={venue}
-                    setVenue={setVenue}
+                    venueSlug={venueSlug}
+                    setVenueSlug={setVenueSlug}
                     cartValue={cartValue}
                     setCartValue={setCartValue}
                     latitude={latitude}

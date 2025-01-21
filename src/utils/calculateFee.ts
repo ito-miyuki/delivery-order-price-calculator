@@ -18,7 +18,7 @@ const calculateDistance = (
         Math.sin(dLon / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return Math.round(R * c * 1000); // 距離 (km)
+    return Math.round(R * c * 1000); // 距離 (m)
 };
 
 

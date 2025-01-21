@@ -53,7 +53,7 @@ const fetchVenue = async (venueSlug: string | undefined): Promise<VenueData | nu
             basePrice,
             distanceRanges,
         });
-        return { latitude, longitude, orderMinimum, basePrice, distanceRanges};
+        return { latitude, longitude, orderMinimum, basePrice, distanceRanges };
     }
 
     console.error("Failed to fetch venue data from both endpoints.");

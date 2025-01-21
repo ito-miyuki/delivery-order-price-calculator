@@ -8,12 +8,9 @@
   align-items: center;
 }
 
-/* .container {
-  text-align: center;
-}  */
-
 h1 {
-  color: #009de0;
+  /* color: #009de0; */
+  color: #333;
   margin: 20px;
   text-align: center;
 }
@@ -29,5 +26,13 @@ h1 {
 @media only screen and (max-width: 768px) {
   .app-container {
     flex-direction: column;
+  }
+
+  h1 {
+    /* color: #009de0; */
+    color: #333;
+    margin: 10px;
+    text-align: center;
+    font-size: 24px;
   }
 }

@@ -1,24 +1,26 @@
 .delivery-price-container {
     margin: 20px auto;
     border: solid;
+    background-color: rgba(0,157,224);
     border-color: rgba(0,157,224);
-    background-color: white;
-    border-width: medium;
+    /* background-color: white; */
+    border-width: 2px;
     border-radius: 8px;
-    padding: 10px;
-    color: #555;
+    padding: 30px 10px;
+    color: white;
 }
 
 .total-value {
     display: flex;
     justify-content: space-between;
     font-size: 22px;
-    color: black;
+    color: white;
 }
 
 .breakdown-value {
     display: flex;
     justify-content: space-between;
+    margin: 20px auto;
 }
 .breakdown-value .topic {
     margin: auto 10px;
@@ -30,19 +32,18 @@
 
 .divider {
     border: none;
-    border-top: 1px solid #ccc; /* 灰色の線 */
+    border-top: 1px solid #ccc;
     margin: 10px 0;
 }
 
 .delivery-price-container .total-price {
-    color: black;
+    /* color: black; */
     font-size: 24px;
 }
 
 .breakdown {
-    margin: 4px 0;
+    margin: 5px;
     font-size: 18px;
-    margin: 5px 10px;
 }
 
 @media only screen and (max-width: 768px) {
