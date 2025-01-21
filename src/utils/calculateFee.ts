@@ -72,15 +72,15 @@ const calculateFee = ({
       distanceRanges: DistanceRange[]
 }): FeeCalculationResult => {
 
-    // for testing, delete those
-    // console.log("check values");
-    // console.log(`${cartValue}`);
-    // console.log(`${userLatitude}`);
-    // console.log(`${userLongitude}`);
-    // console.log(`${venueLatitude}`);
-    // console.log(`${venueLongitude}`);
-    // console.log(`${orderMinimum}`);
-    // console.log(`${basePrice}`);
+    //for testing, delete those
+    console.log("check values");
+    console.log(`cartValue is ${cartValue}`);
+    console.log(`userLatitude is ${userLatitude}`);
+    console.log(`userLongitude is ${userLongitude}`);
+    console.log(`venueLatitude is ${venueLatitude}`);
+    console.log(`venueLongitude is ${venueLongitude}`);
+    console.log(`orderMinimum is ${orderMinimum}`);
+    console.log(`basePrice is ${basePrice}`);
 
     if (
         !cartValue ||
@@ -117,6 +117,12 @@ const calculateFee = ({
     }
 
     const totalPrice = (cartValue * 100) + smallOrderFee + deliveryFee;
+
+    //for testing, delete those
+    console.log(`smallOrderFee is ${smallOrderFee}`);
+    console.log(`deliveryFee is ${deliveryFee}`);
+    console.log(`deliveryDis is ${deliveryDis}`);
+    console.log(`totalPrice is ${totalPrice}`);
 
     return {
         smallOrderFee,

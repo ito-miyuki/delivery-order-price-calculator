@@ -22,6 +22,9 @@ function App() {
         setDeliveryFee(result.deliveryFee);
         setDeliveryDis(result.deliveryDis);
         setTotal(result.totalPrice);
+
+        console.log("After updating fees");
+        console.log(`totalPrice is ${total}`);
     };
 
     return (
