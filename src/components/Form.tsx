@@ -124,11 +124,12 @@ function Form({
         <div className="form-container">
             <form className="form" onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>Venue Slug</label>
+                    <label htmlFor="venueSlug">Venue Slug</label>
                     <input
                         type="text"
                         value={venueSlug}
                         onChange={(e) => setVenueSlug(e.target.value)}
+                        id="venueSlug"
                         data-test-id="venueSlug" 
                         data-raw-value={venueSlug}
                     />
@@ -139,11 +140,12 @@ function Form({
                     )}
                 </div>
                 <div className="form-group">
-                    <label>Cart Value</label>
+                    <label htmlFor="CartValue">Cart Value</label>
                     <input
                         type="text"
                         value={inputCartValue}
                         onChange={(e) => handleCartValueChange(e.target.value)} // 入力変更時の処理
+                        id="CartValue"
                         data-test-id="cartValue"
                         data-raw-value={cartValue !== null ? cartValue * 100 : ""}
                     />
@@ -153,13 +155,13 @@ function Form({
                         <p className="error-message" role="alert">{"\u00A0"}</p> // 空白を表示
                     )}
                 </div>
-
                 <div className="form-group">
-                    <label>Latitude</label>
+                    <label htmlFor="latitude">Latitude</label>
                     <input
                         type="number"
                         value={latitude || ""}
                         onChange={(e) => setLatitude(Number(e.target.value))}
+                        id="latitude"
                         data-test-id="userLatitude"
                         data-raw-value={latitude}
                     />
@@ -170,11 +172,12 @@ function Form({
                     )}
                 </div>
                 <div className="form-group">
-                    <label>Longitude</label>
+                    <label htmlFor="longitude">Longitude</label>
                     <input
                         type="number"
                         value={longitude || ""}
                         onChange={(e) => setLongitude(Number(e.target.value))}
+                        id="longitude"
                         data-test-id="userLongitude"
                         data-raw-value={longitude}
                     />
