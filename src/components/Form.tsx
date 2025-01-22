@@ -1,22 +1,9 @@
 import React from "react";
 import calculateFee from "../utils/calculateFee";
 import fetchVenue from "../utils/fetchVenue";
-import { FeeCalculationResult } from "../utils/calculateFee";
+import { FormProps } from "./types";
 import "./Form.css"
 import { useState } from "react";
-
-type FormProps = {
-    venueSlug: string | undefined;
-    setVenueSlug: React.Dispatch<React.SetStateAction<string | undefined>>;
-    cartValue: number | null;
-    setCartValue: React.Dispatch<React.SetStateAction<number | null>>;
-    latitude: number | null;
-    setLatitude: React.Dispatch<React.SetStateAction<number | null>>;
-    longitude: number | null;
-    setLongitude: React.Dispatch<React.SetStateAction<number | null>>;
-    updateFeesState: (result: FeeCalculationResult) => void;
-    total: number | null
-};
 
 function Form({
     venueSlug,
@@ -35,7 +22,8 @@ function Form({
 
     const [venueSlugError, setVenueSlugError] = useState<string | null>(null);
     const [getLocationError, setGetLocationError] = useState<string | null>(null);
-    const handleCartValueChange = (value: string) => {
+
+    const handleCartValue = (value: string) => {
             setInputCartValue(value); // 入力中の値をそのまま保存
 
         if (value === "") {
@@ -46,18 +34,56 @@ function Form({
         const validNumberRegex = /^[+-]?(\d+(\.\d*)?|\.\d+)$/;
         if (!validNumberRegex.test(value)) {
             setCartValueError("Cart value must be a valid number.");
+            setCartValue(null);
             return;
         }
 
         const numericValue = parseFloat(value);
         if (numericValue <= 0) {
             setCartValueError("Cart value must be greater than 0.");
+            setCartValue(null);
         } else {
             setCartValueError(null);
+            setCartValue(numericValue);
+        }
+    };
+
+    const [latitudeError, setLatitudeError] = useState<string | null>(null);
+    const [longitudeError, setLongitudeError] = useState<string | null>(null);
+
+    const handleLatitude = (value: string) => {
+        const numericValue = parseFloat(value);
+        if (value === "" || isNaN(numericValue)) {
+            setLatitudeError("Latitude must be a number.");
+            setLatitude(null);
+            return;
         }
 
-        setCartValue(numericValue);
+        if (numericValue < -90 || numericValue > 90) {
+            setLatitudeError("Latitude must be between -90 and 90.");
+        } else {
+            setLatitudeError(null);
+        }
+
+        setLatitude(numericValue);
     };
+
+    const handleLongitude = (value: string) => {
+    const numericValue = parseFloat(value);
+    if (value === "" || isNaN(numericValue)) {
+        setLongitudeError("Longitude must be a number.");
+        setLongitude(null);
+        return;
+    }
+
+    if (numericValue < -180 || numericValue > 180) {
+        setLongitudeError("Longitude must be between -180 and 180.");
+    } else {
+        setLongitudeError(null);
+    }
+
+    setLongitude(numericValue);
+};
 
     const handleGetLocation = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -91,6 +117,15 @@ function Form({
             console.error("Geolocation is not supported by this browser.");
         }
     };
+
+    const isSubmitDisabled = !venueSlug || 
+                            !cartValue || 
+                            latitude === null || 
+                            longitude === null || 
+                            cartValueError !== null || 
+                            latitudeError !== null || 
+                            longitudeError !== null || 
+                            venueSlugError !== null;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -149,7 +184,7 @@ function Form({
                     <input
                         type="text"
                         value={inputCartValue}
-                        onChange={(e) => handleCartValueChange(e.target.value)} // 入力変更時の処理
+                        onChange={(e) => handleCartValue(e.target.value)} // 入力変更時の処理
                         id="CartValue"
                         data-test-id="cartValue"
                         data-raw-value={cartValue !== null ? cartValue * 100 : ""}
@@ -165,32 +200,42 @@ function Form({
                     <input
                         type="number"
                         value={latitude || ""}
-                        onChange={(e) => setLatitude(Number(e.target.value))}
+                        onChange={(e) => handleLatitude(e.target.value)}
                         id="latitude"
                         data-test-id="userLatitude"
                         data-raw-value={latitude}
                     />
                 </div>
+                {latitudeError ? (
+                    <p className="error-message" role="alert">{latitudeError}</p>
+                    ) : (
+                    <p className="error-message" role="alert">{"\u00A0"}</p> // 空白を表示
+                )}
                 <div className="form-group">
                     <label htmlFor="longitude">Longitude</label>
                     <input
                         type="number"
                         value={longitude || ""}
-                        onChange={(e) => setLongitude(Number(e.target.value))}
+                        onChange={(e) => handleLongitude(e.target.value)}
                         id="longitude"
                         data-test-id="userLongitude"
                         data-raw-value={longitude}
                     />
                 </div>
+                {longitudeError ? (
+                    <p className="error-message" role="alert">{longitudeError}</p>
+                    ) : (
+                    <p className="error-message" role="alert">{"\u00A0"}</p> // 空白を表示
+                )}
                 <button className="location-button" type="button" data-test-id="getLocation" onClick={handleGetLocation}>
                     Get Location
                 </button>
                 {getLocationError ? (
-                        <p className="error-message" role="alert">{getLocationError}</p>
-                    ) : (
-                        <p className="error-message" role="alert">{"\u00A0"}</p> // 空白を表示
+                    <p className="error-message" role="alert">{getLocationError}</p>
+                ) : (
+                    <p className="error-message" role="alert">{"\u00A0"}</p> // 空白を表示
                 )}
-                <button className="submit-button"type="submit">Calculate Delivery Price</button>
+                <button className="submit-button" type="submit" disabled={isSubmitDisabled}>Calculate Delivery Price</button>
             </form>
         </div>
     );
