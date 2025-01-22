@@ -1,50 +1,65 @@
-# React + TypeScript + Vite
+# Wolt Frontend Internship 2025 – Delivery Order Price Calculator UI (DOPC)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 1. Introduction
+This project is a submission for the **Wolt Frontend Internship 2025** challenge. It demonstrates a delivery order price calculation feature combined with geolocation to retrieve the user’s coordinates. The goal is to validate user inputs (such as cart value and location) and compute a delivery cost based on distance, cart minimum, and other parameters. Delivery Order Price CalculatorDOPC(DOPC for short) is an imaginary frontend that is capable of calculating the total price and price breakdown of a delivery order.
 
-Currently, two official plugins are available:
+DOPC integrates with the Home Assignment API to fetch venue-related data required to calculate the prices.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The term venue refers to any kind of restaurant/shop / store in Wolt.
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 2. Features
+- **Delivery Fee Calculation**: Calculates fees based on cart value, distance ranges, and venue-specific rules.
+- **Geolocation**: Uses `navigator.geolocation` to obtain the user’s latitude and longitude, with error handling for denied permissions, timeouts, or unavailable positions.
+- **Input Validation**: Ensures valid numeric input for cart value and sensible latitude/longitude inputs.
+- **Error Messages**: Displays detailed error messages when location retrieval or cart value input fails validation.
 
-- Configure the top-level `parserOptions` property like this:
+## 3. Tech Stack
+- **React (TypeScript)** for building the user interface.
+- **CSS** for styling the form and error messages.
+- **Vitest / React Testing Library**for unit and integration tests.
+  
+## 4. Installation & Setup
+1. **Clone this repository**:
+    ```bash
+    git clone https://github.com/username/frontend-internship-2025.git
+    cd wolt-2025
+    ```
+2. **Install dependencies**:
+    ```bash
+    npm install
+    ```
+3. **Start the development server**:
+    ```bash
+    npm run dev
+    ```
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## 5. Usage
+1. **Venue Slug**: Enter the slug corresponding to a specific venue (used to fetch venue data like base price or distance ranges).
+2. **Cart Value**: Enter a positive numeric value.
+3. **Coordinates**: Either manually type latitude and longitude or click **Get Location** to use your device’s geolocation.
+4. **Calculate Delivery Price**: Submits the form and displays the calculated delivery fee.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+> **Note**: If you deny location access, an error message will appear explaining the issue. You can allow location access in your browser settings and try again.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## 6. Implementation Details
+### Delivery Fee Calculation
+- Located in a utility function (e.g., `calculateFee.ts`).
+- Considers minimum cart value, distance brackets, and a base price.
+- Returns a detailed object with the final fee and breakdown information.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### Geolocation Handling
+- Implemented in `Form.tsx` using `navigator.geolocation.getCurrentPosition`.
+- If permission is denied, it sets an error state with a user-friendly message.
+- On success, it updates the latitude and longitude state for further fee calculations.
+
+### Error Handling & Validation
+- **Cart Value** must be a valid number greater than 0.
+- **Slug** must be provided; an error appears if the venue data cannot be fetched.
+- **Coordinates** can be manually entered or retrieved via geolocation. Missing or invalid values produce an error message.
+
+## 7. Testing
+Tests are included:
+
+```bash
+npm run test
