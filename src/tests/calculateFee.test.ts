@@ -34,7 +34,8 @@ test('test1(modify the title)', () => {
 
 // test 2
 test('test2(modify the title)', () => {
-    const cartValue = 10;
+    const cartValue = 10
+    ;
     const userLatitude = 60.1754347;
     const userLongitude = 24.8248982;
     const venueLatitude = 60.17012143;

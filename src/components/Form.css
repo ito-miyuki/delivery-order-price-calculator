@@ -80,6 +80,7 @@ button {
     min-height: 16px; /* エラーメッセージの高さを確保 */
     display: flex;
     align-items: center; /* 中央揃え */
+    white-space: pre-wrap;
 }
 
 

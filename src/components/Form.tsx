@@ -34,16 +34,14 @@ function Form({
     const [inputCartValue, setInputCartValue] = useState<string>(""); // 入力中の値
 
     const [venueSlugError, setVenueSlugError] = useState<string | null>(null);
-
+    const [getLocationError, setGetLocationError] = useState<string | null>(null);
     const handleCartValueChange = (value: string) => {
             setInputCartValue(value); // 入力中の値をそのまま保存
 
-        // 空の場合
         if (value === "") {
             setCartValue(null);
             return;
         }
-
         // 正規表現で数値形式を検証（小数点を許可）
         const validNumberRegex = /^[+-]?(\d+(\.\d*)?|\.\d+)$/;
         if (!validNumberRegex.test(value)) {
@@ -51,21 +49,14 @@ function Form({
             return;
         }
 
-        // 数値に変換してバリデーション
         const numericValue = parseFloat(value);
         if (numericValue <= 0) {
             setCartValueError("Cart value must be greater than 0.");
         } else {
-            setCartValueError(null); // エラーをクリア
+            setCartValueError(null);
         }
 
-        // 正常な数値として保持
         setCartValue(numericValue);
-
-        // const numericValue = parseFloat(value);
-        // if (!isNaN(numericValue)) {
-        //     setCartValue(numericValue);
-        // }
     };
 
     const handleGetLocation = (e: React.MouseEvent) => {
@@ -74,10 +65,25 @@ function Form({
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
+                    setGetLocationError(null);
                     setLatitude(position.coords.latitude);
                     setLongitude(position.coords.longitude);
                 },
                 (error) => {
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            setGetLocationError("Location access was denied.\nPlease allow location access in your browser settings.");
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            setGetLocationError("Could not determine your location.\nPlease check your network or try again later.");
+                            break;
+                        case error.TIMEOUT:
+                            setGetLocationError("Location request timed out.\nPlease try again.");
+                            break;
+                        default:
+                            setGetLocationError("An unknown error occurred.");
+                            break;
+                    }
                     console.error("Error fetching location: ", error);
                 }
             );
@@ -89,7 +95,6 @@ function Form({
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // venue slug
         if (!venueSlug) {
             setVenueSlugError("Venue slug is required.");
         }
@@ -165,11 +170,6 @@ function Form({
                         data-test-id="userLatitude"
                         data-raw-value={latitude}
                     />
-                    {!latitude ? (
-                        <p className="error-message" role="alert">Please enter a latitude</p>
-                    ) : (
-                        <p className="error-message" role="alert">{"\u00A0"}</p> // 空白を表示
-                    )}
                 </div>
                 <div className="form-group">
                     <label htmlFor="longitude">Longitude</label>
@@ -181,15 +181,15 @@ function Form({
                         data-test-id="userLongitude"
                         data-raw-value={longitude}
                     />
-                    {!longitude ? (
-                        <p className="error-message" role="alert">Please enter a longitude</p>
-                    ) : (
-                        <p className="error-message" role="alert">{"\u00A0"}</p> // 空白を表示
-                    )}
                 </div>
                 <button className="location-button" type="button" data-test-id="getLocation" onClick={handleGetLocation}>
                     Get Location
                 </button>
+                {getLocationError ? (
+                        <p className="error-message" role="alert">{getLocationError}</p>
+                    ) : (
+                        <p className="error-message" role="alert">{"\u00A0"}</p> // 空白を表示
+                )}
                 <button className="submit-button"type="submit">Calculate Delivery Price</button>
             </form>
         </div>
