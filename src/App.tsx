@@ -5,12 +5,11 @@ import { useState } from 'react';
 import type { FeeCalculationResult } from './utils/calculateFee';
 
 function App() {
-    const [venueSlug, setVenueSlug] = useState<string | undefined>('');
+    const [venueSlug, setVenueSlug] = useState<string | undefined>(''); // why it is not null?
     const [cartValue, setCartValue] = useState<number | null>(null);
     const [latitude, setLatitude] = useState<number | null>(null);
     const [longitude, setLongitude] = useState<number | null>(null);
 
-    // const [orderMinimum, setOrderMinimum] = useState<number>(10); // this might not be needed!
     const [surcharge, setSurcharge] = useState<number>(0);
     const [deliveryFee, setDeliveryFee] = useState<number>(0);
     const [deliveryDis, setDeliveryDis] = useState<number>(0);
@@ -23,8 +22,6 @@ function App() {
         setDeliveryDis(result.deliveryDis);
         setTotal(result.totalPrice);
 
-        console.log("After updating fees");
-        console.log(`totalPrice is ${total}`);
     };
 
     return (
@@ -42,7 +39,6 @@ function App() {
                     setLatitude={setLatitude}
                     longitude={longitude}
                     setLongitude={setLongitude}
-                    // setOrderMinimum={setOrderMinimum}
                     updateFeesState={updateFeesState}
                     total={total}
                 />

@@ -1,4 +1,4 @@
-import { DistanceRange } from "./calculateFee";
+import { DistanceRange } from "../utils/calculateFee";
 
 type VenueData = {
     latitude: number;
@@ -33,7 +33,6 @@ const fetchVenue = async (venueSlug: string | undefined): Promise<VenueData | nu
         }
     };
 
-    // 緯度と経度を取得
     const staticData = await fetchData(endpoints.static);
     const coordinates = staticData?.venue_raw?.location?.coordinates;
     const latitude = coordinates ? coordinates[1] : null;
@@ -42,17 +41,18 @@ const fetchVenue = async (venueSlug: string | undefined): Promise<VenueData | nu
     // 最低注文額を取得
     const dynamicData = await fetchData(endpoints.dynamic);
     const orderMinimum = dynamicData?.venue_raw?.delivery_specs?.order_minimum_no_surcharge ?? 0;
-    const basePrice = dynamicData?.venue_raw?.delivery_specs?.delivery_pricing?.base_price ?? 0; // 基本料金の取得
+    
+    const basePrice = dynamicData?.venue_raw?.delivery_specs?.delivery_pricing?.base_price ?? 0;
     const distanceRanges = dynamicData?.venue_raw?.delivery_specs?.delivery_pricing?.distance_ranges || [];
 
-    if (latitude !== null && longitude !== null) {
-        console.log(`Venue data successfully fetched:`, {
-            latitude,
-            longitude,
-            orderMinimum,
-            basePrice,
-            distanceRanges,
-        });
+    if (latitude !== null && longitude !== null) { // should I check ordermin, baseprice, are also not null
+        // console.log(`Venue data successfully fetched:`, {
+        //     latitude,
+        //     longitude,
+        //     orderMinimum,
+        //     basePrice,
+        //     distanceRanges,
+        // });
         return { latitude, longitude, orderMinimum, basePrice, distanceRanges };
     }
 

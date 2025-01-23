@@ -1,9 +1,12 @@
 import React from "react";
 import calculateFee from "../utils/calculateFee";
-import fetchVenue from "../utils/fetchVenue";
+import fetchVenue from "../api/fetchVenue";
 import { FormProps } from "./types";
 import "./Form.css"
 import { useState } from "react";
+import building from "../assets/building.svg"
+import cart from "../assets/cart.svg"
+import pin from "../assets/map-pin.svg"
 
 function Form({
     venueSlug,
@@ -14,7 +17,7 @@ function Form({
     setLatitude,
     longitude,
     setLongitude,
-    updateFeesState,
+    updateFeesState, // function
     }: FormProps) {
 
     const [cartValueError, setCartValueError] = useState<string | null>(null);
@@ -23,10 +26,21 @@ function Form({
     const [venueSlugError, setVenueSlugError] = useState<string | null>(null);
     const [getLocationError, setGetLocationError] = useState<string | null>(null);
 
+    const handleVenueSlug = (value: string) => {
+        if (value === "") {
+            setVenueSlugError(null);
+            setVenueSlug(undefined);
+            return;
+        }
+        setVenueSlug(value);
+        setVenueSlugError(null);
+    }
+
     const handleCartValue = (value: string) => {
-            setInputCartValue(value); // 入力中の値をそのまま保存
+        setInputCartValue(value);
 
         if (value === "") {
+            setCartValueError(null);
             setCartValue(null);
             return;
         }
@@ -51,9 +65,16 @@ function Form({
     const [latitudeError, setLatitudeError] = useState<string | null>(null);
     const [longitudeError, setLongitudeError] = useState<string | null>(null);
 
+    // why string, not number? 
     const handleLatitude = (value: string) => {
+        if (value === "") {
+            setLatitudeError(null);
+            setLatitude(null);
+            return;
+        }
+
         const numericValue = parseFloat(value);
-        if (value === "" || isNaN(numericValue)) {
+        if (isNaN(numericValue)) {
             setLatitudeError("Latitude must be a number.");
             setLatitude(null);
             return;
@@ -61,37 +82,45 @@ function Form({
 
         if (numericValue < -90 || numericValue > 90) {
             setLatitudeError("Latitude must be between -90 and 90.");
+            //setLatitude(null);  ????
+            //return ;
         } else {
             setLatitudeError(null);
+            //setLatitude(null);  ????
+            //return ;
         }
-
         setLatitude(numericValue);
     };
 
     const handleLongitude = (value: string) => {
-    const numericValue = parseFloat(value);
-    if (value === "" || isNaN(numericValue)) {
-        setLongitudeError("Longitude must be a number.");
-        setLongitude(null);
-        return;
-    }
+        if (value === "") {
+            setLongitudeError(null);
+            setLongitude(null);
+            return;
+        }
 
-    if (numericValue < -180 || numericValue > 180) {
-        setLongitudeError("Longitude must be between -180 and 180.");
-    } else {
-        setLongitudeError(null);
-    }
+        const numericValue = parseFloat(value);
+        if (isNaN(numericValue)) {
+            setLongitudeError("Longitude must be a number.");
+            setLongitude(null);
+            return;
+        }
 
-    setLongitude(numericValue);
-};
+        if (numericValue < -180 || numericValue > 180) {
+            setLongitudeError("Longitude must be between -180 and 180.");
+        } else {
+            setLongitudeError(null);
+        }
+        setLongitude(numericValue);
+    };
 
-    const handleGetLocation = (e: React.MouseEvent) => {
-        e.preventDefault();
-
+    const handleGetLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     setGetLocationError(null);
+                    setLatitudeError(null);
+                    setLongitudeError(null);
                     setLatitude(position.coords.latitude);
                     setLongitude(position.coords.longitude);
                 },
@@ -110,42 +139,55 @@ function Form({
                             setGetLocationError("An unknown error occurred.");
                             break;
                     }
-                    console.error("Error fetching location: ", error);
+                    console.error("Error fetching location: ", error); // do I need it?
                 }
             );
         } else {
+            setGetLocationError("Geolocation is not supported by this browser.");
             console.error("Geolocation is not supported by this browser.");
         }
     };
 
-    const isSubmitDisabled = !venueSlug || 
-                            !cartValue || 
-                            latitude === null || 
-                            longitude === null || 
-                            cartValueError !== null || 
-                            latitudeError !== null || 
-                            longitudeError !== null || 
-                            venueSlugError !== null;
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        let hasError = false;
 
         if (!venueSlug) {
             setVenueSlugError("Venue slug is required.");
+            hasError = true;
+        }
+
+        if (parseFloat(inputCartValue) <= 0) {
+            setCartValueError("Cart value must be greater than 0."); // might not needed
+            hasError = true;
+        }
+        else if (cartValue === null) {
+            hasError = true;
+            setCartValueError("Cart value cannot be empty.");
+        }
+
+        if (latitude === null) {
+            setLatitudeError("Latitude cannot be empty.");
+            hasError = true;
+        }
+
+        if (longitude === null) {
+            setLongitudeError("Longitude cannot be empty.");
+            hasError = true;
+        }
+
+        if (hasError){
+            return ;
         }
 
         const venueData = await fetchVenue(venueSlug);
         if (!venueData) {
-            setVenueSlugError("Please check the venue slug."); //venue data(latitude,longitude, orderMinimum, basePrice,DistanceRange[])をここにsaveする
+            setVenueSlugError("Please check the venue slug.");
             return;
         }
+
         setVenueSlugError(null);
 
-        if (cartValue === null || cartValue < 0) {
-            setCartValueError("Cart value cannot be negative.");
-            return;
-        }
-        // 計算結果を取得
         const result = calculateFee({
             cartValue: cartValue,
             userLatitude: latitude,
@@ -164,78 +206,72 @@ function Form({
         <div className="form-container">
             <form className="form" onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label htmlFor="venueSlug">Venue Slug</label>
+                    <div className="label-container">
+                        <label htmlFor="venueSlug">Venue Slug</label>
+                        <img className="icon" src={building} alt="cart-icon" />
+                    </div>
                     <input
                         type="text"
                         value={venueSlug}
-                        onChange={(e) => setVenueSlug(e.target.value)}
+                        onChange={(e) => handleVenueSlug(e.target.value)}
                         id="venueSlug"
-                        data-test-id="venueSlug" 
-                        data-raw-value={venueSlug}
+                        data-test-id="venueSlug"
+                        placeholder="home-assignment-venue-example"
                     />
-                    {venueSlugError ? (
-                        <p className="error-message" role="alert">{venueSlugError}</p>
-                        ) : (
-                        <p className="error-message" role="alert">{"\u00A0"}</p> // 空白を表示
-                    )}
+                    {venueSlugError && <p className="error-message" role="alert">{venueSlugError}</p> }
                 </div>
                 <div className="form-group">
-                    <label htmlFor="CartValue">Cart Value</label>
+                    <div className="label-container">
+                        <label htmlFor="CartValue">Cart Value (€)</label>
+                        <img className="icon" src={cart} alt="cart-icon" />
+                    </div>
                     <input
                         type="text"
                         value={inputCartValue}
                         onChange={(e) => handleCartValue(e.target.value)} // 入力変更時の処理
                         id="CartValue"
                         data-test-id="cartValue"
-                        data-raw-value={cartValue !== null ? cartValue * 100 : ""}
+                        placeholder="0.00"
                     />
-                    {cartValueError ? (
-                        <p className="error-message" role="alert">{cartValueError}</p>
-                    ) : (
-                        <p className="error-message" role="alert">{"\u00A0"}</p> // 空白を表示
-                    )}
+                    {cartValueError && <p className="error-message" role="alert">{cartValueError}</p> }
                 </div>
                 <div className="form-group">
-                    <label htmlFor="latitude">Latitude</label>
+                    <div className="label-container">
+                        <label htmlFor="latitude">Latitude</label>
+                        <img className="icon" src={pin} alt="cart-icon" />
+                    </div>
                     <input
                         type="number"
                         value={latitude || ""}
                         onChange={(e) => handleLatitude(e.target.value)}
                         id="latitude"
                         data-test-id="userLatitude"
-                        data-raw-value={latitude}
+                        placeholder="60.1807791"
                     />
+                    {latitudeError && <p className="error-message" role="alert">{latitudeError}</p>}
                 </div>
-                {latitudeError ? (
-                    <p className="error-message" role="alert">{latitudeError}</p>
-                    ) : (
-                    <p className="error-message" role="alert">{"\u00A0"}</p> // 空白を表示
-                )}
                 <div className="form-group">
-                    <label htmlFor="longitude">Longitude</label>
+                    <div className="label-container">
+                        <label htmlFor="longitude">Longitude</label>
+                        <img className="icon" src={pin} alt="cart-icon" />
+                    </div>
                     <input
                         type="number"
                         value={longitude || ""}
                         onChange={(e) => handleLongitude(e.target.value)}
                         id="longitude"
                         data-test-id="userLongitude"
-                        data-raw-value={longitude}
+                        placeholder="24.9587424"
                     />
+                    {longitudeError && <p className="error-message" role="alert">{longitudeError}</p> }
                 </div>
-                {longitudeError ? (
-                    <p className="error-message" role="alert">{longitudeError}</p>
-                    ) : (
-                    <p className="error-message" role="alert">{"\u00A0"}</p> // 空白を表示
-                )}
                 <button className="location-button" type="button" data-test-id="getLocation" onClick={handleGetLocation}>
                     Get Location
                 </button>
-                {getLocationError ? (
+                {getLocationError && (
                     <p className="error-message" role="alert">{getLocationError}</p>
-                ) : (
-                    <p className="error-message" role="alert">{"\u00A0"}</p> // 空白を表示
                 )}
-                <button className="submit-button" type="submit" disabled={isSubmitDisabled}>Calculate Delivery Price</button>
+                <button className="submit-button" type="submit">Calculate Delivery Price</button>
             </form>
         </div>
     );

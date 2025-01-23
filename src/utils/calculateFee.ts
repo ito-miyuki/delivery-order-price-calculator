@@ -1,12 +1,14 @@
+import { CENT_FORMAT, RADIUS } from "../constants";
+
+// what formula is it using?
 const calculateDistance = (
     venueLatitude: number,
     venueLongitude: number,
     userLatitude: number,
     userLongitude: number
 ): number => {
-    const toRadians = (deg: number) => (deg * Math.PI) / 180; // 度をラジアンに変換
+    const toRadians = (deg: number) => (deg * Math.PI) / 180;
 
-    const R = 6371; // 地球の半径 (km)
     const dLat = toRadians(userLatitude - venueLatitude);
     const dLon = toRadians(userLongitude - venueLongitude);
 
@@ -18,7 +20,7 @@ const calculateDistance = (
         Math.sin(dLon / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return Math.round(R * c * 1000); // 距離 (m)
+    return Math.round(RADIUS * c * 1000); // in meter(m)
 };
 
 
@@ -27,14 +29,12 @@ const calculateDeliveryFee = (
     basePrice: number,
     distanceRanges: DistanceRange[]
 ): number | null => {
-    // 距離範囲に基づく料金計算
     for (const range of distanceRanges) {
         if (distance >= range.min && (range.max === 0 || distance < range.max)) {
-            const variableFee = Math.round(range.b * (distance / 10)); // 距離ベース料金
+            const variableFee = Math.round(range.b * (distance / 10));
             return basePrice + range.a + variableFee;
         }
     }
-    // 配送不可の場合
     return null;
 };
 
@@ -72,16 +72,6 @@ const calculateFee = ({
       distanceRanges: DistanceRange[]
 }): FeeCalculationResult => {
 
-    //for testing, delete those
-    console.log("check values");
-    console.log(`cartValue is ${cartValue}`);
-    console.log(`userLatitude is ${userLatitude}`);
-    console.log(`userLongitude is ${userLongitude}`);
-    console.log(`venueLatitude is ${venueLatitude}`);
-    console.log(`venueLongitude is ${venueLongitude}`);
-    console.log(`orderMinimum is ${orderMinimum}`);
-    console.log(`basePrice is ${basePrice}`);
-
     if (
         !cartValue ||
         !userLatitude ||
@@ -90,10 +80,8 @@ const calculateFee = ({
         !venueLongitude ||
         !orderMinimum ||
         !basePrice ||
-        !distanceRanges ||
-        distanceRanges.length === 0 // do we need it?
+        distanceRanges.length === 0
     ) {
-        console.error("Invalid input for delivery fee calculation.");
         return {
             smallOrderFee: 0,
             deliveryFee: 0,
@@ -102,7 +90,7 @@ const calculateFee = ({
         };
     }
 
-    const smallOrderFee = (cartValue * 100) < orderMinimum ? orderMinimum - (cartValue * 100) : 0;
+    const smallOrderFee = (cartValue * CENT_FORMAT) < orderMinimum ? orderMinimum - (cartValue * CENT_FORMAT) : 0;
     const deliveryDis = calculateDistance(venueLatitude, venueLongitude, userLatitude, userLongitude);
             
     const deliveryFee = calculateDeliveryFee(deliveryDis, basePrice, distanceRanges);
@@ -116,13 +104,7 @@ const calculateFee = ({
         };
     }
 
-    const totalPrice = (cartValue * 100) + smallOrderFee + deliveryFee;
-
-    //for testing, delete those
-    console.log(`smallOrderFee is ${smallOrderFee}`);
-    console.log(`deliveryFee is ${deliveryFee}`);
-    console.log(`deliveryDis is ${deliveryDis}`);
-    console.log(`totalPrice is ${totalPrice}`);
+    const totalPrice = (cartValue * CENT_FORMAT) + smallOrderFee + deliveryFee;
 
     return {
         smallOrderFee,

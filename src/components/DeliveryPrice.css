@@ -3,9 +3,8 @@
     border: solid;
     background-color: rgba(0,157,224);
     border-color: rgba(0,157,224);
-    /* background-color: white; */
     border-width: 2px;
-    border-radius: 8px;
+    border-radius: 4px;
     padding: 30px 10px;
     color: white;
 }
@@ -37,7 +36,6 @@
 }
 
 .delivery-price-container .total-price {
-    /* color: black; */
     font-size: 24px;
 }
 
@@ -49,10 +47,10 @@
 @media only screen and (max-width: 768px) {
     .breakdown-value .topic,
     .breakdown-value .value {
-        margin: auto 5px; /* スペースを少なめに */
+        margin: auto 5px;
     }
 
     .divider {
-        margin: 8px 0; /* 狭い画面では余白を調整 */
+        margin: 8px 0;
     }
 }
