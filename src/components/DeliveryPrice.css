@@ -1,5 +1,5 @@
 .delivery-price-container {
-    margin: 20px auto;
+    /* margin: 20px auto; */
     border: solid;
     background-color: rgba(0,157,224);
     border-color: rgba(0,157,224);
@@ -21,6 +21,7 @@
     justify-content: space-between;
     margin: 20px auto;
 }
+
 .breakdown-value .topic {
     margin: auto 10px;
 }
@@ -45,6 +46,19 @@
 }
 
 @media only screen and (max-width: 768px) {
+    .total-value {
+        font-size: 18px;
+        margin: 10px 10px;
+    }
+
+    .breakdown {
+        margin: 10px 10px;
+    }
+
+    .breakdown-value {
+        margin: 5px 10px;
+    }
+
     .breakdown-value .topic,
     .breakdown-value .value {
         margin: auto 5px;
@@ -52,5 +66,11 @@
 
     .divider {
         margin: 8px 0;
+    }
+
+    .delivery-price-container {
+        margin: 0px;
+        width: 100%;
+        padding: 0px;
     }
 }

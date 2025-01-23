@@ -5,7 +5,7 @@ import { useState } from 'react';
 import type { FeeCalculationResult } from './utils/calculateFee';
 
 function App() {
-    const [venueSlug, setVenueSlug] = useState<string | undefined>(''); // why it is not null?
+    const [venueSlug, setVenueSlug] = useState<string>("");
     const [cartValue, setCartValue] = useState<number | null>(null);
     const [latitude, setLatitude] = useState<number | null>(null);
     const [longitude, setLongitude] = useState<number | null>(null);
@@ -21,7 +21,6 @@ function App() {
         setDeliveryFee(result.deliveryFee);
         setDeliveryDis(result.deliveryDis);
         setTotal(result.totalPrice);
-
     };
 
     return (
@@ -40,7 +39,6 @@ function App() {
                     longitude={longitude}
                     setLongitude={setLongitude}
                     updateFeesState={updateFeesState}
-                    total={total}
                 />
                 <DeliveryPrice
                     cartValue={cartValue}

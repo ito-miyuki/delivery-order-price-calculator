@@ -8,7 +8,7 @@ type VenueData = {
     distanceRanges: DistanceRange[];
 };
 
-const fetchVenue = async (venueSlug: string | undefined): Promise<VenueData | null> => {
+const fetchVenue = async (venueSlug: string | null): Promise<VenueData | null> => {
     if (!venueSlug) {
         console.error("Venue slug is undefined.");
         return null;

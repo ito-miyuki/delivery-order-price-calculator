@@ -29,11 +29,11 @@ function Form({
     const handleVenueSlug = (value: string) => {
         if (value === "") {
             setVenueSlugError(null);
-            setVenueSlug(undefined);
+            setVenueSlug("");
             return;
         }
         setVenueSlug(value);
-        setVenueSlugError(null);
+        setVenueSlugError("");
     }
 
     const handleCartValue = (value: string) => {

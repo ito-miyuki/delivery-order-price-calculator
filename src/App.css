@@ -6,13 +6,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
 }
 
 h1 {
-  /* color: #009de0; */
   color: #333;
   margin: 20px;
   text-align: center;
+  font-weight: 300;
+}
+
+.container {
+  padding: 10px;
 }
 
 .app-container {
@@ -27,11 +32,10 @@ h1 {
 @media only screen and (max-width: 768px) {
   .app-container {
     flex-direction: column;
+    align-items: center;
   }
 
   h1 {
-    /* color: #009de0; */
-    color: #333;
     margin: 10px;
     text-align: center;
     font-size: 24px;
