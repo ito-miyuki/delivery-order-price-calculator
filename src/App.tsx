@@ -1,6 +1,6 @@
 import './App.css'
-import Form from './components/Form'
-import DeliveryPrice from './components/DeliveryPrice'
+import Form from './components/Form/Form'
+import PriceBreakdown from './components/PriceBreakdown/PriceBreakdown'
 import { useState } from 'react';
 import type { FeeCalculationResult } from './utils/calculateFee';
 
@@ -40,7 +40,7 @@ function App() {
                     setLongitude={setLongitude}
                     updateFeesState={updateFeesState}
                 />
-                <DeliveryPrice
+                <PriceBreakdown
                     cartValue={cartValue}
                     deliveryFee={deliveryFee}
                     deliveryDis={deliveryDis}

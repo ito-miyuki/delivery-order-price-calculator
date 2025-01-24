@@ -1,12 +1,12 @@
 import React from "react";
-import calculateFee from "../utils/calculateFee";
-import fetchVenue from "../api/fetchVenue";
-import { FormProps } from "./types";
+import calculateFee from "../../utils/calculateFee";
+import fetchVenue from "../../api/fetchVenue";
+import { FormProps } from "../types";
 import "./Form.css"
 import { useState } from "react";
-import building from "../assets/building.svg"
-import cart from "../assets/cart.svg"
-import pin from "../assets/map-pin.svg"
+import building from "../../assets/building.svg"
+import cart from "../../assets/cart.svg"
+import pin from "../../assets/map-pin.svg"
 
 function Form({
     venueSlug,

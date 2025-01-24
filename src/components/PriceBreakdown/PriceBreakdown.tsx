@@ -1,6 +1,6 @@
-import "./DeliveryPrice.css"
+import "./PriceBreakdown.css"
 
-type DeliveryPriceProps = {
+type PriceBreakdownProps = {
     cartValue: number | null;
     deliveryFee: number;
     deliveryDis: number;
@@ -8,13 +8,13 @@ type DeliveryPriceProps = {
     total: number;
 };
 
-function DeliveryPrice({
+function PriceBreakdown({
     cartValue,
     deliveryFee,
     deliveryDis,
     surcharge,
     total,
-}: DeliveryPriceProps) {
+}: PriceBreakdownProps) {
     return (
         <div className="delivery-price-container">
             <div className="total-value">
@@ -43,4 +43,4 @@ function DeliveryPrice({
     );
 }
 
-export default DeliveryPrice;
+export default PriceBreakdown;

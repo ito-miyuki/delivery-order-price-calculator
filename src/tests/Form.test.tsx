@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi } from "vitest";
-import Form from "../components/Form";
+import Form from "../components/Form/Form";
 
 // テスト用のプロップスを準備
 const mockProps = {
