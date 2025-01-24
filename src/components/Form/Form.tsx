@@ -17,11 +17,11 @@ function Form({
     setLatitude,
     longitude,
     setLongitude,
-    updateFeesState, // function
+    updateFeesState,
     }: FormProps) {
 
     const [cartValueError, setCartValueError] = useState<string | null>(null);
-    const [inputCartValue, setInputCartValue] = useState<string>(""); // 入力中の値
+    const [inputCartValue, setInputCartValue] = useState<string>("");
 
     const [venueSlugError, setVenueSlugError] = useState<string | null>(null);
     const [getLocationError, setGetLocationError] = useState<string | null>(null);
@@ -44,7 +44,6 @@ function Form({
             setCartValue(null);
             return;
         }
-        // 正規表現で数値形式を検証（小数点を許可）
         const validNumberRegex = /^[+-]?(\d+(\.\d*)?|\.\d+)$/;
         if (!validNumberRegex.test(value)) {
             setCartValueError("Cart value must be a valid number.");
@@ -82,13 +81,11 @@ function Form({
 
         if (numericValue < -90 || numericValue > 90) {
             setLatitudeError("Latitude must be between -90 and 90.");
-            //setLatitude(null);  ????
-            //return ;
-        } else {
-            setLatitudeError(null);
-            //setLatitude(null);  ????
-            //return ;
+            setLatitude(null);
+            return ;
         }
+        
+        setLatitudeError(null);
         setLatitude(numericValue);
     };
 
@@ -108,9 +105,9 @@ function Form({
 
         if (numericValue < -180 || numericValue > 180) {
             setLongitudeError("Longitude must be between -180 and 180.");
-        } else {
-            setLongitudeError(null);
+            setLongitude(null);
         }
+        setLongitudeError(null);
         setLongitude(numericValue);
     };
 
@@ -147,6 +144,8 @@ function Form({
             console.error("Geolocation is not supported by this browser.");
         }
     };
+
+    const [deliveryDistanceError, setDeliveryDistanceError] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -199,6 +198,12 @@ function Form({
             distanceRanges: venueData.distanceRanges
         });
 
+        if (result.errorMessage) {
+            setDeliveryDistanceError(result.errorMessage); // 必要に応じて他の方法で表示
+            // console.log(`result.errorMessage is ${result.errorMessage}`);
+            return;
+        }
+        setDeliveryDistanceError(null);
         updateFeesState(result);
     };
     
@@ -228,7 +233,7 @@ function Form({
                     <input
                         type="text"
                         value={inputCartValue}
-                        onChange={(e) => handleCartValue(e.target.value)} // 入力変更時の処理
+                        onChange={(e) => handleCartValue(e.target.value)}
                         id="CartValue"
                         data-test-id="cartValue"
                         placeholder="0.00"
@@ -272,6 +277,9 @@ function Form({
                     <p className="error-message" role="alert">{getLocationError}</p>
                 )}
                 <button className="submit-button" type="submit">Calculate Delivery Price</button>
+                {deliveryDistanceError && (
+                    <p className="error-message" role="alert">{deliveryDistanceError}</p>
+                )}
             </form>
         </div>
     );

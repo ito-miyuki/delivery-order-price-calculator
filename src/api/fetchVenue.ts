@@ -46,13 +46,6 @@ const fetchVenue = async (venueSlug: string | null): Promise<VenueData | null> =
     const distanceRanges = dynamicData?.venue_raw?.delivery_specs?.delivery_pricing?.distance_ranges || [];
 
     if (latitude !== null && longitude !== null) { // should I check ordermin, baseprice, are also not null
-        // console.log(`Venue data successfully fetched:`, {
-        //     latitude,
-        //     longitude,
-        //     orderMinimum,
-        //     basePrice,
-        //     distanceRanges,
-        // });
         return { latitude, longitude, orderMinimum, basePrice, distanceRanges };
     }
 

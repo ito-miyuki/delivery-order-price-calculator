@@ -20,9 +20,9 @@ const calculateDistance = (
         Math.sin(dLon / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    console.log(`RADIUS * c * 1000 is ${RADIUS * c * 1000}`);
     return Math.round(RADIUS * c * 1000); // in meter(m)
 };
-
 
 const calculateDeliveryFee = (
     distance: number,
@@ -30,11 +30,23 @@ const calculateDeliveryFee = (
     distanceRanges: DistanceRange[]
 ): number | null => {
     for (const range of distanceRanges) {
-        if (distance >= range.min && (range.max === 0 || distance < range.max)) {
-            const variableFee = Math.round(range.b * (distance / 10));
-            return basePrice + range.a + variableFee;
+        // 最後のレンジの特別扱い
+        if (range.max === 0) {
+            if (distance >= range.min) {
+                console.log("Delivery distance exceeds the maximum allowed range.");
+                return null; // 配送不可
+            }
+        }
+        // 通常の範囲チェック
+        if (distance >= range.min && distance < range.max) {
+            console.log("Condition met for range:", range);
+            const variableFee = range.b * (distance / 10);
+            const totalFee = basePrice + range.a + variableFee;
+            return Math.round(totalFee);
         }
     }
+
+    console.log("Delivery distance exceeds all ranges."); // 万が一の範囲外
     return null;
 };
 
@@ -46,10 +58,10 @@ export type FeeCalculationResult = {
 };
 
 export type DistanceRange = {
-    min: number; // 距離範囲の下限 (メートル)
-    max: number; // 距離範囲の上限 (メートル)
-    a: number;   // 固定料金
-    b: number;   // 距離ベースの追加料金係数
+    min: number;
+    max: number;
+    a: number;
+    b: number;
 };
 
 const calculateFee = ({
@@ -70,7 +82,7 @@ const calculateFee = ({
       orderMinimum: number | null,
       basePrice: number | null,
       distanceRanges: DistanceRange[]
-}): FeeCalculationResult => {
+}): FeeCalculationResult & { errorMessage?: string } => {
 
     if (
         !cartValue ||
@@ -87,6 +99,7 @@ const calculateFee = ({
             deliveryFee: 0,
             deliveryDis: 0,
             totalPrice: 0,
+            errorMessage: "Invalid input data."
         };
     }
 
@@ -101,6 +114,7 @@ const calculateFee = ({
             deliveryFee: 0,
             deliveryDis,
             totalPrice: 0,
+            errorMessage: "Delivery is not available for this distance.",
         };
     }
 
