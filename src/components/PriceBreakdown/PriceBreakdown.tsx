@@ -8,7 +8,7 @@ type PriceBreakdownProps = {
     total: number;
 };
 
-function PriceBreakdown({
+export function PriceBreakdown({
     cartValue,
     deliveryFee,
     deliveryDis,
@@ -43,5 +43,3 @@ function PriceBreakdown({
         </div>
     );
 }
-
-export default PriceBreakdown;

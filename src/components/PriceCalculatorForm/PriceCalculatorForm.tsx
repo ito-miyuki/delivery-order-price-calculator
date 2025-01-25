@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 
 import { calculateFee, FeeCalculationResult} from "../../utils/calculateFee";
+// import { handleVenueSlug } from "./hooks";
 import fetchVenue from "../../api/fetchVenue";
 import "./PriceCalculatorForm.css"
 
@@ -20,6 +21,8 @@ export function PriceCalculatorForm({
     setCartValue,
     updateFeesState,
     }: FormProps) {
+    
+    // const { venueSlug, handleVenueSlug, venueSlugError } = handleVenueSlug();
 
     const [venueSlug, setVenueSlug] = useState<string>("");
     const [latitude, setLatitude] = useState<number | null>(null);
@@ -150,8 +153,20 @@ export function PriceCalculatorForm({
 
     const [deliveryDistanceError, setDeliveryDistanceError] = useState<string | null>(null);
 
+    const resetErrors = () => {
+        setVenueSlugError(null);
+        setCartValueError(null);
+        setLatitudeError(null);
+        setLongitudeError(null);
+        setDeliveryDistanceError(null);
+        setGetLocationError(null);
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        resetErrors();
+
         let hasError = false;
 
         if (!venueSlug) {

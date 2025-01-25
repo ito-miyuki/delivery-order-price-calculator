@@ -1,7 +1,8 @@
-import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import { PriceCalculatorForm } from "../components/PriceCalculatorForm/PriceCalculatorForm";
+
+import { PriceCalculatorForm } from "../src/components/PriceCalculatorForm/PriceCalculatorForm";
 
 const mockSetVenueSlug = vi.fn();
 const mockSetCartValue = vi.fn();
