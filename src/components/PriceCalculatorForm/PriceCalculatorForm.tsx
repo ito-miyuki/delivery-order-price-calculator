@@ -8,6 +8,7 @@ import "./PriceCalculatorForm.css"
 import building from "../../assets/building.svg"
 import cart from "../../assets/cart.svg"
 import pin from "../../assets/map-pin.svg"
+import { validateCartValue, validateLatitude, validateLongitude } from "../../utils/validation";
 
 type FormProps = {
     cartValue: number | null;
@@ -42,26 +43,13 @@ export function PriceCalculatorForm({
 
     const handleCartValue = (value: string) => {
         setInputCartValue(value);
-
-        if (value === "") {
-            setCartValueError(null);
-            setCartValue(null);
-            return;
-        }
-        const validNumberRegex = /^[+-]?(\d+(\.\d*)?|\.\d+)$/;
-        if (!validNumberRegex.test(value)) {
-            setCartValueError("Cart value must be a valid number.");
-            setCartValue(null);
-            return;
-        }
-
-        const numericValue = parseFloat(value);
-        if (numericValue <= 0) {
-            setCartValueError("Cart value must be greater than 0.");
+        const error = validateCartValue(value);
+        if (error) {
+            setCartValueError(error);
             setCartValue(null);
         } else {
             setCartValueError(null);
-            setCartValue(numericValue);
+            setCartValue(parseFloat(value));
         }
     };
 
@@ -69,49 +57,25 @@ export function PriceCalculatorForm({
     const [longitudeError, setLongitudeError] = useState<string | null>(null);
 
     const handleLatitude = (value: string) => {
-        if (value === "") {
+        const error = validateLatitude(value);
+        if (error) {
+            setLatitudeError(error);
+            setLatitude(null);
+        } else {
             setLatitudeError(null);
-            setLatitude(null);
-            return;
+            setLatitude(parseFloat(value));
         }
-
-        const numericValue = parseFloat(value);
-        if (isNaN(numericValue)) {
-            setLatitudeError("Latitude must be a number.");
-            setLatitude(null);
-            return;
-        }
-
-        if (numericValue < -90 || numericValue > 90) {
-            setLatitudeError("Latitude must be between -90 and 90.");
-            setLatitude(null);
-            return ;
-        }
-        
-        setLatitudeError(null);
-        setLatitude(numericValue);
     };
 
     const handleLongitude = (value: string) => {
-        if (value === "") {
+        const error = validateLongitude(value);
+        if (error) {
+            setLongitudeError(error);
+            setLongitude(null);
+        } else {
             setLongitudeError(null);
-            setLongitude(null);
-            return;
+            setLatitude(parseFloat(value));
         }
-
-        const numericValue = parseFloat(value);
-        if (isNaN(numericValue)) {
-            setLongitudeError("Longitude must be a number.");
-            setLongitude(null);
-            return;
-        }
-
-        if (numericValue < -180 || numericValue > 180) {
-            setLongitudeError("Longitude must be between -180 and 180.");
-            setLongitude(null);
-        }
-        setLongitudeError(null);
-        setLongitude(numericValue);
     };
 
     const [getLocationError, setGetLocationError] = useState<string | null>(null);
