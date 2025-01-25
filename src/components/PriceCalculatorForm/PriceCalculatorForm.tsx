@@ -1,30 +1,31 @@
 import React from "react";
-import calculateFee from "../../utils/calculateFee";
-import fetchVenue from "../../api/fetchVenue";
-import { FormProps } from "../types";
-import "./Form.css"
 import { useState } from "react";
+
+import { calculateFee, FeeCalculationResult} from "../../utils/calculateFee";
+import fetchVenue from "../../api/fetchVenue";
+import "./PriceCalculatorForm.css"
+
 import building from "../../assets/building.svg"
 import cart from "../../assets/cart.svg"
 import pin from "../../assets/map-pin.svg"
 
-function Form({
-    venueSlug,
-    setVenueSlug,
+type FormProps = {
+    cartValue: number | null;
+    setCartValue: React.Dispatch<React.SetStateAction<number | null>>;
+    updateFeesState: (result: FeeCalculationResult) => void;
+};
+
+export function PriceCalculatorForm({
     cartValue,
     setCartValue,
-    latitude,
-    setLatitude,
-    longitude,
-    setLongitude,
     updateFeesState,
     }: FormProps) {
 
-    const [cartValueError, setCartValueError] = useState<string | null>(null);
-    const [inputCartValue, setInputCartValue] = useState<string>("");
+    const [venueSlug, setVenueSlug] = useState<string>("");
+    const [latitude, setLatitude] = useState<number | null>(null);
+    const [longitude, setLongitude] = useState<number | null>(null);
 
     const [venueSlugError, setVenueSlugError] = useState<string | null>(null);
-    const [getLocationError, setGetLocationError] = useState<string | null>(null);
 
     const handleVenueSlug = (value: string) => {
         if (value === "") {
@@ -35,6 +36,9 @@ function Form({
         setVenueSlug(value);
         setVenueSlugError("");
     }
+
+    const [cartValueError, setCartValueError] = useState<string | null>(null);
+    const [inputCartValue, setInputCartValue] = useState<string>("");
 
     const handleCartValue = (value: string) => {
         setInputCartValue(value);
@@ -64,7 +68,6 @@ function Form({
     const [latitudeError, setLatitudeError] = useState<string | null>(null);
     const [longitudeError, setLongitudeError] = useState<string | null>(null);
 
-    // why string, not number? 
     const handleLatitude = (value: string) => {
         if (value === "") {
             setLatitudeError(null);
@@ -111,6 +114,8 @@ function Form({
         setLongitude(numericValue);
     };
 
+    const [getLocationError, setGetLocationError] = useState<string | null>(null);
+
     const handleGetLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -136,12 +141,10 @@ function Form({
                             setGetLocationError("An unknown error occurred.");
                             break;
                     }
-                    console.error("Error fetching location: ", error); // do I need it?
                 }
             );
         } else {
             setGetLocationError("Geolocation is not supported by this browser.");
-            console.error("Geolocation is not supported by this browser.");
         }
     };
 
@@ -157,7 +160,7 @@ function Form({
         }
 
         if (parseFloat(inputCartValue) <= 0) {
-            setCartValueError("Cart value must be greater than 0."); // might not needed
+            setCartValueError("Cart value must be greater than 0.");
             hasError = true;
         }
         else if (cartValue === null) {
@@ -240,7 +243,7 @@ function Form({
                         data-test-id="venueSlug"
                         placeholder="home-assignment-venue-example"
                     />
-                    {venueSlugError && <p className="error-message" role="alert">{venueSlugError}</p> }
+                    {venueSlugError && <p className="error-message" role="alert">{venueSlugError}</p>}
                 </div>
                 <div className="form-group">
                     <div className="label-container">
@@ -255,7 +258,7 @@ function Form({
                         data-test-id="cartValue"
                         placeholder="0.00"
                     />
-                    {cartValueError && <p className="error-message" role="alert">{cartValueError}</p> }
+                    {cartValueError && <p className="error-message" role="alert">{cartValueError}</p>}
                 </div>
                 <div className="form-group">
                     <div className="label-container">
@@ -285,7 +288,7 @@ function Form({
                         data-test-id="userLongitude"
                         placeholder="24.9587424"
                     />
-                    {longitudeError && <p className="error-message" role="alert">{longitudeError}</p> }
+                    {longitudeError && <p className="error-message" role="alert">{longitudeError}</p>}
                 </div>
                 <button className="location-button" type="button" data-test-id="getLocation" onClick={handleGetLocation}>
                     Get Location
@@ -302,4 +305,3 @@ function Form({
     );
 }
 
-export default Form;

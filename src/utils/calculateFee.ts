@@ -1,26 +1,25 @@
 import { CENT_FORMAT, RADIUS } from "../constants";
 
-// what formula is it using?
+// Haversine Formula
 const calculateDistance = (
     venueLatitude: number,
     venueLongitude: number,
     userLatitude: number,
     userLongitude: number
 ): number => {
-    const toRadians = (deg: number) => (deg * Math.PI) / 180;
+    const toRadians = (degree: number) => (degree * Math.PI) / 180;
 
-    const dLat = toRadians(userLatitude - venueLatitude);
-    const dLon = toRadians(userLongitude - venueLongitude);
+    const deltaLat = toRadians(userLatitude - venueLatitude);
+    const deltaLon = toRadians(userLongitude - venueLongitude);
 
     const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
         Math.cos(toRadians(venueLatitude)) *
         Math.cos(toRadians(userLatitude)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
+        Math.sin(deltaLon / 2) *
+        Math.sin(deltaLon / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    console.log(`RADIUS * c * 1000 is ${RADIUS * c * 1000}`);
     return Math.round(RADIUS * c * 1000); // in meter(m)
 };
 
@@ -32,19 +31,15 @@ const calculateDeliveryFee = (
     for (const range of distanceRanges) {
         if (range.max === 0) {
             if (distance >= range.min) {
-                console.log("Delivery distance exceeds the maximum allowed range.");
                 return null;
             }
         }
         if (distance >= range.min && distance < range.max) {
-            console.log("Condition met for range:", range);
             const variableFee = range.b * (distance / 10);
             const totalFee = basePrice + range.a + variableFee;
             return Math.round(totalFee);
         }
     }
-
-    console.log("Delivery distance exceeds all ranges.");
     return null;
 };
 
@@ -62,7 +57,7 @@ export type DistanceRange = {
     b: number;
 };
 
-const calculateFee = ({
+export const calculateFee = ({
       cartValue,
       userLatitude,
       userLongitude,
@@ -81,7 +76,6 @@ const calculateFee = ({
       basePrice: number | null,
       distanceRanges: DistanceRange[]
 }): FeeCalculationResult & { errorMessage?: string } => {
-
     if (
         !cartValue ||
         !userLatitude ||
@@ -106,7 +100,6 @@ const calculateFee = ({
             
     const deliveryFee = calculateDeliveryFee(deliveryDis, basePrice, distanceRanges);
     if (deliveryFee === null) {
-        console.error("Delivery is not available for this distance.");
         return {
             smallOrderFee,
             deliveryFee: 0,
@@ -125,5 +118,3 @@ const calculateFee = ({
         totalPrice,
     };
 };
-
-export default calculateFee;

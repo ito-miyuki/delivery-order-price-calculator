@@ -1,21 +1,20 @@
 import './App.css'
-import Form from './components/Form/Form'
+import { PriceCalculatorForm } from './components/PriceCalculatorForm/PriceCalculatorForm'
 import PriceBreakdown from './components/PriceBreakdown/PriceBreakdown'
 import { useState } from 'react';
 import type { FeeCalculationResult } from './utils/calculateFee';
 
 function App() {
-    const [venueSlug, setVenueSlug] = useState<string>("");
+    // const [venueSlug, setVenueSlug] = useState<string>("");
     const [cartValue, setCartValue] = useState<number | null>(null);
-    const [latitude, setLatitude] = useState<number | null>(null);
-    const [longitude, setLongitude] = useState<number | null>(null);
+    // const [latitude, setLatitude] = useState<number | null>(null);
+    // const [longitude, setLongitude] = useState<number | null>(null);
 
     const [surcharge, setSurcharge] = useState<number>(0);
     const [deliveryFee, setDeliveryFee] = useState<number>(0);
     const [deliveryDis, setDeliveryDis] = useState<number>(0);
     const [total, setTotal] = useState<number>(0);
 
-    // result is a parameter and FeeCalculationResult is a type of parameter
     const updateFeesState = (result: FeeCalculationResult) => {
         setSurcharge(result.smallOrderFee);
         setDeliveryFee(result.deliveryFee);
@@ -29,15 +28,15 @@ function App() {
                 <h1>Delivery Order Price Calculator</h1>
             </header>
             <div className='app-container'>
-                <Form
-                    venueSlug={venueSlug}
-                    setVenueSlug={setVenueSlug}
+                <PriceCalculatorForm
+                    // venueSlug={venueSlug}
+                    // setVenueSlug={setVenueSlug}
                     cartValue={cartValue}
                     setCartValue={setCartValue}
-                    latitude={latitude}
-                    setLatitude={setLatitude}
-                    longitude={longitude}
-                    setLongitude={setLongitude}
+                    // latitude={latitude}
+                    // setLatitude={setLatitude}
+                    // longitude={longitude}
+                    // setLongitude={setLongitude}
                     updateFeesState={updateFeesState}
                 />
                 <PriceBreakdown

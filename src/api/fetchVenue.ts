@@ -10,7 +10,6 @@ type VenueData = {
 
 const fetchVenue = async (venueSlug: string | null): Promise<VenueData | null> => {
     if (!venueSlug) {
-        console.error("Venue slug is undefined.");
         return null;
     }
 
@@ -23,12 +22,10 @@ const fetchVenue = async (venueSlug: string | null): Promise<VenueData | null> =
         try {
             const response = await fetch(url);
             if (!response.ok) {
-                console.warn(`Failed to fetch from ${url}: ${response.statusText}`);
                 return null;
             }
             return await response.json();
-        } catch (error) {
-            console.error(`Error fetching from ${url}:`, error);
+        } catch {
             return null;
         }
     };
@@ -38,18 +35,15 @@ const fetchVenue = async (venueSlug: string | null): Promise<VenueData | null> =
     const latitude = coordinates ? coordinates[1] : null;
     const longitude = coordinates ? coordinates[0] : null;
 
-    // 最低注文額を取得
     const dynamicData = await fetchData(endpoints.dynamic);
     const orderMinimum = dynamicData?.venue_raw?.delivery_specs?.order_minimum_no_surcharge ?? 0;
     
     const basePrice = dynamicData?.venue_raw?.delivery_specs?.delivery_pricing?.base_price ?? 0;
     const distanceRanges = dynamicData?.venue_raw?.delivery_specs?.delivery_pricing?.distance_ranges || [];
 
-    if (latitude !== null && longitude !== null) { // should I check ordermin, baseprice, are also not null
+    if (latitude !== null && longitude !== null) {
         return { latitude, longitude, orderMinimum, basePrice, distanceRanges };
     }
-
-    console.error("Failed to fetch venue data from both endpoints.");
     return null;
 };
 

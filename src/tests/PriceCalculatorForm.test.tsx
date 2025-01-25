@@ -1,9 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi } from "vitest";
-import Form from "../components/Form/Form";
+import { PriceCalculatorForm } from "../components/PriceCalculatorForm/PriceCalculatorForm";
 
-// テスト用のプロップスを準備
 const mockSetVenueSlug = vi.fn();
 const mockSetCartValue = vi.fn();
 const mockSetLatitude = vi.fn();
@@ -22,10 +21,9 @@ const defaultProps = {
   updateFeesState: mockUpdateFeesState,
 };
 
-
-describe("Form Component", () => {
+describe("PriceCalculatorForm Component", () => {
   it("renders all form fields and buttons", () => {
-    render(<Form {...defaultProps} />);
+    render(<PriceCalculatorForm {...defaultProps} />);
 
     expect(screen.getByLabelText("Venue Slug")).toBeInTheDocument();
     expect(screen.getByLabelText("Cart Value (€)")).toBeInTheDocument();
@@ -36,7 +34,7 @@ describe("Form Component", () => {
   });
 
   it("displays error message for invalid cart value (<= 0)", async () => {
-    render(<Form {...defaultProps} />);
+    render(<PriceCalculatorForm {...defaultProps} />);
     const cartValueInput = screen.getByLabelText("Cart Value (€)");
 
     await userEvent.type(cartValueInput, "-10");
@@ -44,7 +42,7 @@ describe("Form Component", () => {
   });
 
   it("clears error message when cart value is corrected", async () => {
-    render(<Form {...defaultProps} />);
+    render(<PriceCalculatorForm {...defaultProps} />);
     const cartValueInput = screen.getByLabelText("Cart Value (€)");
 
     await userEvent.type(cartValueInput, "-10");
@@ -58,7 +56,7 @@ describe("Form Component", () => {
   });
 
   it("displays error if Venue Slug is empty on submit", async () => {
-    render(<Form {...defaultProps} />);
+    render(<PriceCalculatorForm {...defaultProps} />);
     const submitButton = screen.getByRole("button", { name: /calculate delivery price/i });
 
     await userEvent.click(submitButton);
@@ -66,14 +64,12 @@ describe("Form Component", () => {
   });
 
   it("displays error if latitude or longitude is empty on submit", async () => {
-    render(<Form {...defaultProps} />);
+    render(<PriceCalculatorForm {...defaultProps} />);
     const submitButton = screen.getByRole("button", { name: /calculate delivery price/i });
 
-    // Venue Slug と Cart Value に一応値を入れる
     await userEvent.type(screen.getByLabelText("Venue Slug"), "some-venue");
     await userEvent.type(screen.getByLabelText("Cart Value (€)"), "10");
 
-    // button clicked but latitude, longitude are empty
     await userEvent.click(submitButton);
 
     expect(screen.getByText("Latitude cannot be empty.")).toBeInTheDocument();
@@ -81,18 +77,16 @@ describe("Form Component", () => {
   });
 
   it("clears all errors when inputs are corrected", async () => {
-    render(<Form {...defaultProps} />);
+    render(<PriceCalculatorForm {...defaultProps} />);
     const submitButton = screen.getByRole("button", { name: /calculate delivery price/i });
 
     await userEvent.click(submitButton);
 
-    // Errors should be displayed
     expect(screen.getByText("Venue slug is required.")).toBeInTheDocument();
     expect(screen.getByText("Cart value cannot be empty.")).toBeInTheDocument();
     expect(screen.getByText("Latitude cannot be empty.")).toBeInTheDocument();
     expect(screen.getByText("Longitude cannot be empty.")).toBeInTheDocument();
 
-    // Correct inputs
     await userEvent.type(screen.getByLabelText("Venue Slug"), "some-venue");
     await userEvent.type(screen.getByLabelText("Cart Value (€)"), "10");
     await userEvent.type(screen.getByLabelText("Latitude"), "60");
