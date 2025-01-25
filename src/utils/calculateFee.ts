@@ -30,14 +30,12 @@ const calculateDeliveryFee = (
     distanceRanges: DistanceRange[]
 ): number | null => {
     for (const range of distanceRanges) {
-        // 最後のレンジの特別扱い
         if (range.max === 0) {
             if (distance >= range.min) {
                 console.log("Delivery distance exceeds the maximum allowed range.");
-                return null; // 配送不可
+                return null;
             }
         }
-        // 通常の範囲チェック
         if (distance >= range.min && distance < range.max) {
             console.log("Condition met for range:", range);
             const variableFee = range.b * (distance / 10);
@@ -46,7 +44,7 @@ const calculateDeliveryFee = (
         }
     }
 
-    console.log("Delivery distance exceeds all ranges."); // 万が一の範囲外
+    console.log("Delivery distance exceeds all ranges.");
     return null;
 };
 

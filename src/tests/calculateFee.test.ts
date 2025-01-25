@@ -7,8 +7,8 @@ test('calculates delivery fee and total price for a short distance', () => {
     const userLongitude = 24.93087;
     const venueLatitude = 60.17012143;
     const venueLongitude = 24.92813512;
-    const orderMinimum = 1000; // 10€
-    const basePrice = 190; // 1.90€
+    const orderMinimum = 1000;
+    const basePrice = 190;
     const distanceRanges = [
         { min: 0, max: 500, a: 0, b: 0, flag: null },
         { min: 500, max: 1000, a: 100, b: 0, flag: null },

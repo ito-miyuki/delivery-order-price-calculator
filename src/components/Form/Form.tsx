@@ -176,12 +176,24 @@ function Form({
         }
 
         if (hasError){
+            updateFeesState({
+                smallOrderFee: 0,
+                deliveryFee: 0,
+                deliveryDis: 0,
+                totalPrice: 0,
+            });
             return ;
         }
 
         const venueData = await fetchVenue(venueSlug);
         if (!venueData) {
             setVenueSlugError("Please check the venue slug.");
+            updateFeesState({
+                smallOrderFee: 0,
+                deliveryFee: 0,
+                deliveryDis: 0,
+                totalPrice: 0,
+            });
             return;
         }
 
@@ -199,9 +211,14 @@ function Form({
         });
 
         if (result.errorMessage) {
-            setDeliveryDistanceError(result.errorMessage); // 必要に応じて他の方法で表示
-            // console.log(`result.errorMessage is ${result.errorMessage}`);
-            return;
+            setDeliveryDistanceError(result.errorMessage);
+            updateFeesState({
+                smallOrderFee: 0,
+                deliveryFee: 0,
+                deliveryDis: 0,
+                totalPrice: 0,
+            });
+            return ;
         }
         setDeliveryDistanceError(null);
         updateFeesState(result);
