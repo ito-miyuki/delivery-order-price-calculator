@@ -1,9 +1,9 @@
 # Delivery Order Price Calculator UI (DOPC)
 
 ## 1. Introduction
-This project is a submission for the **Wolt Frontend Internship 2025**. Delivery Order Price CalculatorDOPC(DOPC for short) is an imaginary frontend that is capable of calculating the total price and price breakdown of a delivery order.
+This project is a submission for the **Wolt Frontend Internship 2025**. This Delivery Order Price Calculator (DOPC) is an imaginary frontend that is capable of calculating the total price and price breakdown of a delivery order.
 
-DOPC integrates with the Home Assignment API to fetch venue-related data required to calculate the prices.The term venue refers to any kind of restaurant/shop / store in Wolt.
+DOPC integrates with the Home Assignment API to fetch venue-related data required to calculate the prices. The term venue refers to any kind of restaurant/shop/store in Wolt.
 
 ## 2. Features
 - **Delivery Fee Calculation**: Calculates fees based on cart value, distance ranges, and venue-specific rules.
@@ -56,6 +56,6 @@ npm run test
 ```
 
 ## 8. Conclusion
-Typescript and React were not the most familiar tools to me but I spent 2 weeks to learn and use them! It was not an easy journey but I enjoyed learning many new things. If I had more time, I would love to work on cleaning my codes, making them more efficient, and better interface. Thinking about error handling was also a fun part to me. When to display an error, should it be when it was submitted or when the wrong value was input? What could be the most efficient logic and at the same time less stressful for users? I wish I could still play around to find out the best solution! Overall, I am satisfied with what I could learn from the assignment and I am excited to dive into it deeper!
+I've known since before I started my software development studies at Hive that I want to build frontends, even though I haven't been able to dedicate as much time as I've wanted to study React & TypeScript due to my busy study schedule. Now that my studies are nearing the end, I'm really happy that I finally got the opportunity to spend these two weeks on the DOPC - this project proved to be a lot of fun and full of learning! It made me sure that these are the technologies I want to work with. It was not an easy two weeks; the last proper projects I worked on with React were from over a year ago. If I had more time, I would love to work on cleaning my code, making it more efficient, and spend more time on CSS and designing an even better interface. Thinking about error handling was also a fun part to me. When to display an error, should it be when it was submitted or when the wrong value was input? What could be the most efficient logic and at the same time less stressful for users? I wish I could still play around to find out the best solution! Overall, I am satisfied with what I could learn from the assignment and I am excited to dive into it deeper!
 
 
