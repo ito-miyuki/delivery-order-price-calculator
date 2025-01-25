@@ -73,8 +73,8 @@ describe("PriceCalculatorForm Component", () => {
 
     await userEvent.click(submitButton);
 
-    expect(screen.getByText("Latitude cannot be empty.")).toBeInTheDocument();
-    expect(screen.getByText("Longitude cannot be empty.")).toBeInTheDocument();
+    expect(screen.getByText("Latitude is required.")).toBeInTheDocument();
+    expect(screen.getByText("Longitude is required.")).toBeInTheDocument();
   });
 
   it("clears all errors when inputs are corrected", async () => {
@@ -84,9 +84,9 @@ describe("PriceCalculatorForm Component", () => {
     await userEvent.click(submitButton);
 
     expect(screen.getByText("Venue slug is required.")).toBeInTheDocument();
-    expect(screen.getByText("Cart value cannot be empty.")).toBeInTheDocument();
-    expect(screen.getByText("Latitude cannot be empty.")).toBeInTheDocument();
-    expect(screen.getByText("Longitude cannot be empty.")).toBeInTheDocument();
+    expect(screen.getByText("Cart value is required.")).toBeInTheDocument();
+    expect(screen.getByText("Latitude is required.")).toBeInTheDocument();
+    expect(screen.getByText("Longitude is required.")).toBeInTheDocument();
 
     await userEvent.type(screen.getByLabelText("Venue Slug"), "some-venue");
     await userEvent.type(screen.getByLabelText("Cart Value (€)"), "10");
@@ -94,8 +94,8 @@ describe("PriceCalculatorForm Component", () => {
     await userEvent.type(screen.getByLabelText("Longitude"), "24");
 
     expect(screen.queryByText("Venue slug is required.")).not.toBeInTheDocument();
-    expect(screen.queryByText("Cart value cannot be empty.")).not.toBeInTheDocument();
-    expect(screen.queryByText("Latitude cannot be empty.")).not.toBeInTheDocument();
-    expect(screen.queryByText("Longitude cannot be empty.")).not.toBeInTheDocument();
+    expect(screen.queryByText("Cart value is required.")).not.toBeInTheDocument();
+    expect(screen.queryByText("Latitude is required.")).not.toBeInTheDocument();
+    expect(screen.queryByText("Longitude is required.")).not.toBeInTheDocument();
   });
 });

@@ -141,16 +141,16 @@ export function PriceCalculatorForm({
         }
         else if (cartValue === null) {
             hasError = true;
-            setCartValueError("Cart value cannot be empty.");
+            setCartValueError("Cart value is required.");
         }
 
         if (latitude === null) {
-            setLatitudeError("Latitude cannot be empty.");
+            setLatitudeError("Latitude is required.");
             hasError = true;
         }
 
         if (longitude === null) {
-            setLongitudeError("Longitude cannot be empty.");
+            setLongitudeError("Longitude is required.");
             hasError = true;
         }
 

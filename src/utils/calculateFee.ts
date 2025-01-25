@@ -1,6 +1,5 @@
 import { CENT_FORMAT, RADIUS } from "../constants";
 
-// Haversine Formula
 const calculateDistance = (
     venueLatitude: number,
     venueLongitude: number,
@@ -20,7 +19,7 @@ const calculateDistance = (
         Math.sin(deltaLon / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return Math.round(RADIUS * c * 1000); // in meter(m)
+    return Math.round(RADIUS * c * 1000); // in meters
 };
 
 const calculateDeliveryFee = (
