@@ -60,6 +60,7 @@ export function PriceCalculatorForm({
     const [longitudeError, setLongitudeError] = useState<string | null>(null);
 
     const handleLatitude = (value: string) => {
+        setIsLocationLoading(false);
         const error = validateLatitude(value);
         if (error) {
             setLatitudeError(error);
@@ -71,6 +72,7 @@ export function PriceCalculatorForm({
     };
 
     const handleLongitude = (value: string) => {
+        setIsLocationLoading(false);
         const error = validateLongitude(value);
         if (error) {
             setLongitudeError(error);
@@ -85,6 +87,9 @@ export function PriceCalculatorForm({
 
     const handleGetLocation = () => {
         setIsLocationLoading(true);
+        const options = {
+            timeout: 10000
+        };
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
@@ -99,7 +104,7 @@ export function PriceCalculatorForm({
                     setIsLocationLoading(false);
                     switch (error.code) {
                         case error.PERMISSION_DENIED:
-                            setGetLocationError("Location access was denied.\nPlease allow location access in your browser settings.");
+                            setGetLocationError("Location access was denied.\nPlease allow location access.");
                             break;
                         case error.POSITION_UNAVAILABLE:
                             setGetLocationError("Could not determine your location.\nPlease check your network or try again later.");
@@ -111,7 +116,8 @@ export function PriceCalculatorForm({
                             setGetLocationError("An unknown error occurred.");
                             break;
                     }
-                }
+                },
+                options
             );
         } else {
             setIsLocationLoading(false);
@@ -240,7 +246,7 @@ export function PriceCalculatorForm({
                         <img className="icon" src={cart} alt="cart-icon" />
                     </div>
                     <input
-                        type="number"
+                        type="text"
                         value={inputCartValue}
                         onChange={(e) => handleCartValue(e.target.value)}
                         id="CartValue"
