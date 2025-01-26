@@ -3,7 +3,7 @@ import "./PriceBreakdown.css"
 type PriceBreakdownProps = {
     cartValue: number | null;
     deliveryFee: number;
-    deliveryDis: number;
+    deliveryDistance: number;
     surcharge: number;
     total: number;
 };
@@ -11,7 +11,7 @@ type PriceBreakdownProps = {
 export function PriceBreakdown({
     cartValue,
     deliveryFee,
-    deliveryDis,
+    deliveryDistance,
     surcharge,
     total,
 }: PriceBreakdownProps) {
@@ -34,7 +34,7 @@ export function PriceBreakdown({
             </div>
             <div className="breakdown-value">
                 <span className="topic">Delivery Distance</span>
-                <span className="value" data-test-id="deliveryDistance" data-raw-value={deliveryDis}>{deliveryDis} m</span>
+                <span className="value" data-test-id="deliveryDistance" data-raw-value={deliveryDistance}>{deliveryDistance} m</span>
             </div>
             <div className="breakdown-value">
                 <span className="topic">Small Order Surcharge</span>

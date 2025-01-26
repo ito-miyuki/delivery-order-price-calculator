@@ -6,20 +6,23 @@ const calculateDistance = (
     userLatitude: number,
     userLongitude: number
 ): number => {
-    const toRadians = (degree: number) => (degree * Math.PI) / 180;
+    const toRadians = (degree: number) => (degree * Math.PI) / 180; // Converts degrees to radians
 
+    // Calculate differences in latitude and longitude, and convert to radians
     const deltaLat = toRadians(userLatitude - venueLatitude);
     const deltaLon = toRadians(userLongitude - venueLongitude);
 
-    const a =
+    // Calculate an intermediate value using the Haversine formula
+    const intermediateValue =
         Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
         Math.cos(toRadians(venueLatitude)) *
         Math.cos(toRadians(userLatitude)) *
         Math.sin(deltaLon / 2) *
         Math.sin(deltaLon / 2);
-
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return Math.round(RADIUS * c * 1000); // in meters
+    
+    // Calculate the arc angle in radians
+    const arcAngle = 2 * Math.atan2(Math.sqrt(intermediateValue), Math.sqrt(1 - intermediateValue));
+    return Math.round(RADIUS * arcAngle * 1000);  // RADIUS = Earth's radius in km
 };
 
 const calculateDeliveryFee = (
@@ -45,7 +48,7 @@ const calculateDeliveryFee = (
 export type FeeCalculationResult = {
     smallOrderFee: number;
     deliveryFee: number;
-    deliveryDis: number;
+    deliveryDistance: number;
     totalPrice: number;
 };
 
@@ -88,23 +91,23 @@ export const calculateFee = ({
         return {
             smallOrderFee: 0,
             deliveryFee: 0,
-            deliveryDis: 0,
+            deliveryDistance: 0,
             totalPrice: 0,
             errorMessage: "Invalid input data."
         };
     }
 
     const smallOrderFee = (cartValue * CENT_FORMAT) < orderMinimum ? orderMinimum - (cartValue * CENT_FORMAT) : 0;
-    const deliveryDis = calculateDistance(venueLatitude, venueLongitude, userLatitude, userLongitude);
+    const deliveryDistance = calculateDistance(venueLatitude, venueLongitude, userLatitude, userLongitude);
             
-    const deliveryFee = calculateDeliveryFee(deliveryDis, basePrice, distanceRanges);
+    const deliveryFee = calculateDeliveryFee(deliveryDistance, basePrice, distanceRanges);
     if (deliveryFee === null) {
         return {
             smallOrderFee,
             deliveryFee: 0,
-            deliveryDis,
+            deliveryDistance,
             totalPrice: 0,
-            errorMessage: `Delivery is not available for this distance.\nDelivery distance: ${deliveryDis} m.`,
+            errorMessage: `Delivery is not available for this distance.\nDelivery distance: ${deliveryDistance} m.`,
         };
     }
 
@@ -113,7 +116,7 @@ export const calculateFee = ({
     return {
         smallOrderFee,
         deliveryFee,
-        deliveryDis,
+        deliveryDistance,
         totalPrice,
     };
 };

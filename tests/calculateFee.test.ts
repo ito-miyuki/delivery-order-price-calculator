@@ -32,7 +32,7 @@ describe('calculateFee function', () => {
                 distanceRanges,
             });
             expect(result.deliveryFee).toBe(190);
-            expect(result.deliveryDis).toBe(177);
+            expect(result.deliveryDistance).toBe(177);
             expect(result.totalPrice).toBe(1190);
         });
     });
@@ -54,7 +54,7 @@ describe('calculateFee function', () => {
                 distanceRanges,
             });
             expect(result.deliveryFee).toBe(190);
-            expect(result.deliveryDis).toBe(177);
+            expect(result.deliveryDistance).toBe(177);
             expect(result.smallOrderFee).toBe(500);
             expect(result.totalPrice).toBe(1190);
         });
@@ -78,13 +78,13 @@ describe('calculateFee function', () => {
             });
         
             expect(result.deliveryFee).toBe(290);
-            expect(result.deliveryDis).toBe(525);
+            expect(result.deliveryDistance).toBe(525);
             expect(result.totalPrice).toBe(1290);
         });
     });
 
     describe('when the delivery distance is out of range', () => {
-        it("returns 0 delivery fee and total price if distance is not covered", () => {
+        it("returns 0 delivery fee and total price", () => {
             const cartValue = 10;
             const userLatitude = 60.1754347;
             const userLongitude = 24.8248982;
@@ -101,7 +101,7 @@ describe('calculateFee function', () => {
             });
         
             expect(result.deliveryFee).toBe(0);
-            expect(result.deliveryDis).toBe(5740);
+            expect(result.deliveryDistance).toBe(5740);
             expect(result.totalPrice).toBe(0);
         });
     });

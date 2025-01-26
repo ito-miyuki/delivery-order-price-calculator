@@ -165,7 +165,7 @@ export function PriceCalculatorForm({
             updateFeesState({
                 smallOrderFee: 0,
                 deliveryFee: 0,
-                deliveryDis: 0,
+                deliveryDistance: 0,
                 totalPrice: 0,
             });
             return ;
@@ -180,7 +180,7 @@ export function PriceCalculatorForm({
                 updateFeesState({
                     smallOrderFee: 0,
                     deliveryFee: 0,
-                    deliveryDis: 0,
+                    deliveryDistance: 0,
                     totalPrice: 0,
                 });
                 return;
@@ -204,7 +204,7 @@ export function PriceCalculatorForm({
                 updateFeesState({
                     smallOrderFee: 0,
                     deliveryFee: 0,
-                    deliveryDis: 0,
+                    deliveryDistance: 0,
                     totalPrice: 0,
                 });
                 return ;

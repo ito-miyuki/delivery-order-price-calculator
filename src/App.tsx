@@ -9,13 +9,13 @@ function App() {
     const [cartValue, setCartValue] = useState<number | null>(null);
     const [surcharge, setSurcharge] = useState<number>(0);
     const [deliveryFee, setDeliveryFee] = useState<number>(0);
-    const [deliveryDis, setDeliveryDis] = useState<number>(0);
+    const [deliveryDistance, setDeliveryDistance] = useState<number>(0);
     const [total, setTotal] = useState<number>(0);
 
     const updateFeesState = (result: FeeCalculationResult) => {
         setSurcharge(result.smallOrderFee);
         setDeliveryFee(result.deliveryFee);
-        setDeliveryDis(result.deliveryDis);
+        setDeliveryDistance(result.deliveryDistance);
         setTotal(result.totalPrice);
     };
 
@@ -33,7 +33,7 @@ function App() {
                 <PriceBreakdown
                     cartValue={cartValue}
                     deliveryFee={deliveryFee}
-                    deliveryDis={deliveryDis}
+                    deliveryDistance={deliveryDistance}
                     surcharge={surcharge}
                     total={total}
                 />

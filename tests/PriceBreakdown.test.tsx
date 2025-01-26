@@ -7,7 +7,7 @@ describe('PriceBreakdown component', () => {
     const defaultProps = {
       cartValue: 20,
       deliveryFee: 190,
-      deliveryDis: 525,
+      deliveryDistance: 525,
       surcharge: 0,
       total: 1190,
     };
@@ -25,7 +25,7 @@ describe('PriceBreakdown component', () => {
     const propsWithNullCart = {
       cartValue: null,
       deliveryFee: 250,
-      deliveryDis: 1000,
+      deliveryDistance: 1000,
       surcharge: 100,
       total: 1450,
     };
