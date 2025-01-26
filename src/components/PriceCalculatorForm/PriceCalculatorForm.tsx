@@ -240,7 +240,7 @@ export function PriceCalculatorForm({
                         <img className="icon" src={cart} alt="cart-icon" />
                     </div>
                     <input
-                        type="text"
+                        type="number"
                         value={inputCartValue}
                         onChange={(e) => handleCartValue(e.target.value)}
                         id="CartValue"
