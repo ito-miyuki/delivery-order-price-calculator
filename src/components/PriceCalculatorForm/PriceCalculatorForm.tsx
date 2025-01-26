@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { RotatingLines } from 'react-loader-spinner'
 
 import { calculateFee, FeeCalculationResult} from "../../utils/calculateFee";
 import fetchVenue from "../../api/fetchVenue";
@@ -27,7 +28,9 @@ export function PriceCalculatorForm({
     const [longitude, setLongitude] = useState<number | null>(null);
 
     const [venueSlugError, setVenueSlugError] = useState<string | null>(null);
-
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLocationLoading, setIsLocationLoading] = useState(false);
+    
     const handleVenueSlug = (value: string) => {
         if (value === "") {
             setVenueSlugError(null);
@@ -74,13 +77,14 @@ export function PriceCalculatorForm({
             setLongitude(null);
         } else {
             setLongitudeError(null);
-            setLatitude(parseFloat(value));
+            setLongitude(parseFloat(value));
         }
     };
 
     const [getLocationError, setGetLocationError] = useState<string | null>(null);
 
     const handleGetLocation = () => {
+        setIsLocationLoading(true);
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
@@ -89,8 +93,10 @@ export function PriceCalculatorForm({
                     setLongitudeError(null);
                     setLatitude(position.coords.latitude);
                     setLongitude(position.coords.longitude);
+                    setIsLocationLoading(false);
                 },
                 (error) => {
+                    setIsLocationLoading(false);
                     switch (error.code) {
                         case error.PERMISSION_DENIED:
                             setGetLocationError("Location access was denied.\nPlease allow location access in your browser settings.");
@@ -108,6 +114,7 @@ export function PriceCalculatorForm({
                 }
             );
         } else {
+            setIsLocationLoading(false);
             setGetLocationError("Geolocation is not supported by this browser.");
         }
     };
@@ -164,43 +171,49 @@ export function PriceCalculatorForm({
             return ;
         }
 
-        const venueData = await fetchVenue(venueSlug);
-        if (!venueData) {
-            setVenueSlugError("Please check the venue slug.");
-            updateFeesState({
-                smallOrderFee: 0,
-                deliveryFee: 0,
-                deliveryDis: 0,
-                totalPrice: 0,
+        setIsLoading(true);
+
+        try {
+            const venueData = await fetchVenue(venueSlug);
+            if (!venueData) {
+                setVenueSlugError("Please check the venue slug.");
+                updateFeesState({
+                    smallOrderFee: 0,
+                    deliveryFee: 0,
+                    deliveryDis: 0,
+                    totalPrice: 0,
+                });
+                return;
+            }
+
+            setVenueSlugError(null);
+
+            const result = calculateFee({
+                cartValue: cartValue,
+                userLatitude: latitude,
+                userLongitude: longitude,
+                venueLatitude: venueData.latitude,
+                venueLongitude: venueData.longitude,
+                orderMinimum: venueData.orderMinimum,
+                basePrice: venueData.basePrice,
+                distanceRanges: venueData.distanceRanges
             });
-            return;
+
+            if (result.errorMessage) {
+                setDeliveryDistanceError(result.errorMessage);
+                updateFeesState({
+                    smallOrderFee: 0,
+                    deliveryFee: 0,
+                    deliveryDis: 0,
+                    totalPrice: 0,
+                });
+                return ;
+            }
+            setDeliveryDistanceError(null);
+            updateFeesState(result);
+        } finally {
+            setIsLoading(false);
         }
-
-        setVenueSlugError(null);
-
-        const result = calculateFee({
-            cartValue: cartValue,
-            userLatitude: latitude,
-            userLongitude: longitude,
-            venueLatitude: venueData.latitude,
-            venueLongitude: venueData.longitude,
-            orderMinimum: venueData.orderMinimum,
-            basePrice: venueData.basePrice,
-            distanceRanges: venueData.distanceRanges
-        });
-
-        if (result.errorMessage) {
-            setDeliveryDistanceError(result.errorMessage);
-            updateFeesState({
-                smallOrderFee: 0,
-                deliveryFee: 0,
-                deliveryDis: 0,
-                totalPrice: 0,
-            });
-            return ;
-        }
-        setDeliveryDistanceError(null);
-        updateFeesState(result);
     };
     
     return (
@@ -266,13 +279,45 @@ export function PriceCalculatorForm({
                     />
                     {longitudeError && <p className="error-message" role="alert">{longitudeError}</p>}
                 </div>
-                <button className="location-button" type="button" data-test-id="getLocation" onClick={handleGetLocation}>
-                    Get Location
+                <button className="location-button" type="button" data-test-id="getLocation" disabled={isLocationLoading} onClick={handleGetLocation}>
+                {isLocationLoading ? (
+                    <>
+                        Getting Location...
+                        <RotatingLines
+                            visible={true}
+                            height={12}
+                            width={12}
+                            strokeColor="white"
+                            strokeWidth={5}
+                            animationDuration={0.75}
+                            ariaLabel="loading-location"
+                        />
+                    </>
+                ) : (
+                "Get Location"
+                )}
                 </button>
                 {getLocationError && (
                     <p className="error-message" role="alert">{getLocationError}</p>
                 )}
-                <button className="submit-button" type="submit">Calculate Delivery Price</button>
+                <button className="submit-button" type="submit" disabled={isLoading} >
+                {isLoading ? (
+                    <>
+                        Calculating...
+                        <RotatingLines
+                            visible={true}
+                            height={14}
+                            width={14}
+                            strokeColor="white"
+                            strokeWidth={5}
+                            animationDuration={0.75}
+                            ariaLabel="loading"
+                        />
+                    </>
+                ) : (
+                    "Calculate Delivery Price"
+                )}
+                </button>
                 {deliveryDistanceError && (
                     <p className="error-message" role="alert">{deliveryDistanceError}</p>
                 )}
