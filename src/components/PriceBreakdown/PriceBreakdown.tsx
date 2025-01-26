@@ -26,7 +26,7 @@ export function PriceBreakdown({
             <p className="breakdown">Price Breakdown</p>
             <div className="breakdown-value">
                 <span className="topic">Cart Value</span>
-                <span className="value" data-test-id="cartValue" data-raw-value={cartValue ? cartValue * 100 : 0}>{cartValue ? cartValue : 0} €</span>
+                <span className="value" data-test-id="pricebreakdown-cartValue" data-raw-value={cartValue ? cartValue * 100 : 0}>{cartValue ? cartValue : 0} €</span>
             </div>
             <div className="breakdown-value">
                 <span className="topic">Delivery Fee</span>

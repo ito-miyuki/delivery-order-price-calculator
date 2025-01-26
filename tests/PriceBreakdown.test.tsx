@@ -15,7 +15,7 @@ describe('PriceBreakdown component', () => {
     render(<PriceBreakdown {...defaultProps} />);
 
     expect(screen.getByTestId('totalPrice')).toHaveTextContent('11.90 €');
-    expect(screen.getByTestId('cartValue')).toHaveTextContent('20 €');
+    expect(screen.getByTestId('pricebreakdown-cartValue')).toHaveTextContent('20 €');
     expect(screen.getByTestId('deliveryFee')).toHaveTextContent('1.90 €');
     expect(screen.getByTestId('deliveryDistance')).toHaveTextContent('525 m');
     expect(screen.getByTestId('smallOrderSurcharge')).toHaveTextContent('0.00 €');
@@ -31,7 +31,7 @@ describe('PriceBreakdown component', () => {
     };
 
     render(<PriceBreakdown {...propsWithNullCart} />);
-    expect(screen.getByTestId('cartValue')).toHaveTextContent('0 €');
+    expect(screen.getByTestId('pricebreakdown-cartValue')).toHaveTextContent('0 €');
     expect(screen.getByTestId('totalPrice')).toHaveTextContent('14.50 €');
   });
 });

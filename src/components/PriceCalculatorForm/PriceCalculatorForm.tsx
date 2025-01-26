@@ -300,7 +300,7 @@ export function PriceCalculatorForm({
                 {getLocationError && (
                     <p className="error-message" role="alert">{getLocationError}</p>
                 )}
-                <button className="submit-button" type="submit" disabled={isLoading} >
+                <button className="submit-button" type="submit" data-test-id="calculateDeliveryPrice" disabled={isLoading} >
                 {isLoading ? (
                     <>
                         Calculating...
