@@ -12,21 +12,16 @@ DOPC integrates with the Home Assignment API to fetch venue-related data require
 - **Error Messages**: Displays detailed error messages when input fails validation.
 
 ## 3. Technology
-- **React (TypeScript)** for building the user interface.
+- **React + TypeScript** for building the user interface.
 - **CSS** for styling the form and error messages.
 - **Vitest / React Testing Library**for unit and integration tests.
   
 ## 4. Installation & Setup
-1. **Clone this repository**:
-    ```bash
-    git clone https://github.com/username/frontend-internship-2025.git
-    cd wolt-2025
-    ```
-2. **Install dependencies**:
+1. **Install dependencies**:
     ```bash
     npm install
     ```
-3. **Start the development server**:
+2. **Start the development server**:
     ```bash
     npm run dev
     ```
@@ -45,8 +40,8 @@ DOPC integrates with the Home Assignment API to fetch venue-related data require
 
 ### Error Handling & Validation
 - **Cart Value** must be a valid number greater than 0.
-- **Slug** must be provided; an error appears if the venue data cannot be fetched.
-- **Coordinates** can be manually entered or retrieved via geolocation. Missing or invalid values produce an error message.
+- **Slug** must be provided. An error appears if the venue data cannot be fetched.
+- **Coordinates** can be manually entered or gotten from geolocation. Missing or invalid values produce an error message.
 
 ## 7. Testing
 Tests are included:
@@ -56,6 +51,12 @@ npm run test
 ```
 
 ## 8. Conclusion
-I've known since before I started my software development studies at Hive that I want to build frontends, even though I haven't been able to dedicate as much time as I've wanted to study React & TypeScript due to my busy study schedule. Now that my studies are nearing the end, I'm really happy that I finally got the opportunity to spend these two weeks on the DOPC - this project proved to be a lot of fun and full of learning! It made me sure that these are the technologies I want to work with. It was not an easy two weeks; the last proper projects I worked on with React were from over a year ago. If I had more time, I would love to work on cleaning my code, making it more efficient, and spend more time on CSS and designing an even better interface. Thinking about error handling was also a fun part to me. When to display an error, should it be when it was submitted or when the wrong value was input? What could be the most efficient logic and at the same time less stressful for users? I wish I could still play around to find out the best solution! Overall, I am satisfied with what I could learn from the assignment and I am excited to dive into it deeper!
+I'm really happy that I got the opportunity to spend these two weeks on the DOPC - this project proved to be a lot of fun and full of learning! It made me sure that these are the technologies I want to work with. 
+
+It was not an easy two weeks. The last proper projects I worked on with React were from over a year ago. If I had more time, I would love to work on cleaning my code, making it more efficient, and spending more time on designing an even better interface. This time I wanted to refresh my CSS skills so I decided to not use any UI component libraries or CSS frameworks, but for my next project I would like to explore some other design approaches such as Tailwind.
+
+Thinking about error handling was also a fun part to me. What would be the clearest and least stressful UX for users? This was a good exercise, but next time I'd like to try using something like React Hook Form and maybe react-toastify to make creating and validating forms and handling (and showing) errors a better experience for the user.
+
+Overall, I am satisfied with what I could learn from the assignment, although I wish I had the chance to continue developing the solution further towards perfection.
 
 
