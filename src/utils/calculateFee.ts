@@ -104,7 +104,7 @@ export const calculateFee = ({
             deliveryFee: 0,
             deliveryDis,
             totalPrice: 0,
-            errorMessage: "Delivery is not available for this distance.",
+            errorMessage: `Delivery is not available for this distance.\nDistance: ${deliveryDis} m.`,
         };
     }
 

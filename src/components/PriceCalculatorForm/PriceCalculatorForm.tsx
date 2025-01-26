@@ -52,7 +52,7 @@ export function PriceCalculatorForm({
             setCartValue(null);
         } else {
             setCartValueError(null);
-            setCartValue(parseFloat(value));
+            setCartValue(parseFloat(parseFloat(value).toFixed(2)));
         }
     };
 

@@ -12,6 +12,5 @@ declare module "react-loader-spinner" {
         wrapperStyle?: React.CSSProperties;
         wrapperClass?: string;
     }
-
     export const RotatingLines: React.FC<RotatingLinesProps>;
 }
