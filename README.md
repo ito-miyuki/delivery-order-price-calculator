@@ -1,7 +1,7 @@
 # Delivery Order Price Calculator(DOPC)
 
 ## 1. Introduction
-This project is a submission for the **[Wolt Frontend Internship 2025](https://github.com/woltapp/frontend-internship-2025?tab=readme-ov-file#submitting-the-solution)**. This Delivery Order Price Calculator (DOPC) is an imaginary frontend that is capable of calculating the total price and price breakdown of a delivery order.
+This project is a submission for the **[Wolt Frontend Internship 2025](https://github.com/woltapp/frontend-internship-2025)**. This Delivery Order Price Calculator (DOPC) is an imaginary frontend that is capable of calculating the total price and price breakdown of a delivery order.
 
 DOPC integrates with the Home Assignment API to fetch venue-related data required to calculate the prices. The term venue refers to any kind of restaurant/shop/store in Wolt.
 
