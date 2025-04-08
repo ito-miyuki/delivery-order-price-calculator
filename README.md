@@ -1,7 +1,7 @@
-# Delivery Order Price Calculator UI (DOPC)
+# Delivery Order Price Calculator(DOPC)
 
 ## 1. Introduction
-This project is a submission for the **Wolt Frontend Internship 2025**. This Delivery Order Price Calculator (DOPC) is an imaginary frontend that is capable of calculating the total price and price breakdown of a delivery order.
+This project is a submission for the **[Wolt Frontend Internship 2025](https://github.com/woltapp/frontend-internship-2025?tab=readme-ov-file#submitting-the-solution)**. This Delivery Order Price Calculator (DOPC) is an imaginary frontend that is capable of calculating the total price and price breakdown of a delivery order.
 
 DOPC integrates with the Home Assignment API to fetch venue-related data required to calculate the prices. The term venue refers to any kind of restaurant/shop/store in Wolt.
 
@@ -26,6 +26,8 @@ DOPC integrates with the Home Assignment API to fetch venue-related data require
     npm run dev
     ```
 
+<img src="./assets/screenshot.png" alt="App Screenshot" width="600" />
+
 ## 5. Usage
 1. **Venue Slug**: Enter the slug corresponding to a specific venue (used to fetch venue data like base price or distance ranges).
 2. **Cart Value**: Enter a positive numeric value.
@@ -42,6 +44,7 @@ DOPC integrates with the Home Assignment API to fetch venue-related data require
 - **Cart Value** must be a valid number greater than 0.
 - **Slug** must be provided. An error appears if the venue data cannot be fetched.
 - **Coordinates** can be manually entered or gotten from geolocation. Missing or invalid values produce an error message.
+
 
 ## 7. Testing
 Tests are included:
